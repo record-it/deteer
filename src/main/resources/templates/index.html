@@ -1,7 +1,7 @@
 <html xmlns:th="https://www.thymeleaf.org">
-<head th:insert="/main::head">
+<head th:insert="main::head">
 <body>
-<nav th:insert="/main::nav"></nav>
+<nav th:insert="main::nav"></nav>
 <div class="container mt-4">
     <div class="jumbotron">
         <h1 class="display-4">Witaj w aplikacji DETEER!</h1>
@@ -19,6 +19,6 @@
         <li><a href="/files/index">Lista plików</a></li>
     </ul>
 </div>
-<div th:insert="/main::scripts"></div>
+<div th:insert="main::scripts"></div>
 </body>
 </html>
