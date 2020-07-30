@@ -5,11 +5,16 @@
 <div class="container mt-4">
     <div class="container">
         <h1>Lista produktów</h1>
-        <div class="list-group list-group-flush">
-            <a class="list-group-item list-group-item-action"
-               th:each="product : ${products}"
-               th:href="@{/products/{id} (id = ${product.getId()})}"
-               th:text="${product.getName()}"></a>
+        <div class="list-group">
+            <div class="row" th:each="product : ${products}">
+                <div class="col-6">
+                <a th:href="@{/products/{id} (id = ${product.getId()})}"
+                   th:text="${product.getName()}"></a>
+                </div>
+                <div class="col">
+                    <a class="text-right" th:href="@{/products/add/{id} (id= ${product.getId()})}"><i class="far fa-plus-square"></i></a>
+                </div>
+            </div>
         </div>
     </div>
 </div>

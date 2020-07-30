@@ -59,6 +59,17 @@ public class ProductController {
         return "redirect:/products/index";
     }
 
+    @GetMapping(path = "/add/{parentId}")
+    public String createChildProductForm(@PathVariable Long parentId, @ModelAttribute("product") NewProductDto product, Model model){
+        Optional<Product> parent = productService.findBy(parentId);
+        if (parent.isPresent()){
+            model.addAttribute("parent", parent.get());
+            product.setParentId(parentId);
+            return "products/newProductForm";
+        }
+        return "error";
+    }
+
     @GetMapping(path = "/update/{id}")
     public String updateProductForm(@PathVariable("id") long id, Model model){
         return productService.findBy(id)

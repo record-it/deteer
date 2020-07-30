@@ -4,7 +4,8 @@
 <nav th:insert="main::nav"></nav>
 <div class="container mt-4">
     <div class="col-6 m-auto">
-        <h3>Dodaj opis produkt</h3>
+        <h3>Wprowadź dane nowego produktu</h3>
+        <h4 th:if="${parent != null}" th:text="${parent.getName()}"></h4>
         <form th:method="post" enctype="multipart/form-data" th:action="@{/products/add}" id="productForm" th:object="${product}">
             <div class="form-group">
                 <label for="product-name">Nazwa:</label>
