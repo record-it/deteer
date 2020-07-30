@@ -30,7 +30,7 @@ public class ProductController {
     @GetMapping(path = "/index")
     public String allProducts(Model model){
         model.addAttribute("products", productService.findAll());
-        return "/products/products";
+        return "products/products";
     }
 
     @GetMapping(path = "/{id}")
