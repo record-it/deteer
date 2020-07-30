@@ -1,7 +1,7 @@
 <html xmlns:th="https://www.thymeleaf.org">
-<head th:insert="/main::head"></head>
+<head th:insert="main::head"></head>
 <body>
-<nav th:insert="/main::nav"></nav>
+<nav th:insert="main::nav"></nav>
 <div class="container sm">
     <div class="container col-8">
         <!--/*@thymesVar id="product" type="pl.recordit.deteer.entity.Product"*/-->
@@ -65,7 +65,7 @@
         </ul>
     </div>
 </div>
-<div th:insert="/main::scripts">
+<div th:insert="main::scripts">
 </div>
 </body>
 </html>
