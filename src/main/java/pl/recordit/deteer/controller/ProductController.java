@@ -51,7 +51,7 @@ public class ProductController {
     @PostMapping("/add")
     public String saveProduct(@ModelAttribute("product") NewProductDto product){
         productService.create(product);
-        return "redirect:/products/";
+        return "redirect:/products/index";
     }
 
     @GetMapping(path = "/update/{id}")
