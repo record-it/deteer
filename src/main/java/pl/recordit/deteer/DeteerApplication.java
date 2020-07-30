@@ -5,11 +5,13 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import pl.recordit.deteer.storage.StorageProperties;
 import pl.recordit.deteer.storage.StorageService;
 
 @SpringBootApplication
 @EnableConfigurationProperties(StorageProperties.class)
+@EnableWebMvc
 public class DeteerApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(DeteerApplication.class, args);

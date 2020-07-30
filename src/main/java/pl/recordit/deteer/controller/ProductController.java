@@ -3,6 +3,7 @@ package pl.recordit.deteer.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.recordit.deteer.dto.CommentDto;
 import pl.recordit.deteer.dto.NewProductDto;
@@ -12,6 +13,7 @@ import pl.recordit.deteer.service.CommentService;
 import pl.recordit.deteer.service.ProductService;
 import pl.recordit.deteer.service.ProductServiceJpa;
 
+import javax.validation.Valid;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -49,7 +51,10 @@ public class ProductController {
     }
 
     @PostMapping("/add")
-    public String saveProduct(@ModelAttribute("product") NewProductDto product){
+    public String saveProduct(@ModelAttribute("product") @Valid NewProductDto product, BindingResult bindingResult){
+        if (bindingResult.hasErrors()){
+            return "products/newProductForm";
+        }
         productService.create(product);
         return "redirect:/products/index";
     }

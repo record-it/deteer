@@ -7,6 +7,7 @@ import pl.recordit.deteer.model.JsonMap;
 
 import javax.persistence.Embeddable;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotBlank;
 
 @Embeddable
 @Builder

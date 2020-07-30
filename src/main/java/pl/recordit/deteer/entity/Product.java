@@ -26,9 +26,6 @@ public class Product {
     @EqualsAndHashCode.Include
     private long id;
 
-    @NotBlank(message = "Nazwa nie może być pusta!")
-    @NotNull(message = "Nazwa nie może być wartością null!")
-    @Size(min=5, max = 50, message = "Zbyt krótka (mniej niż 5 znaków), lub zbyt długa (powyżej 50 znaków) nazwa!")
     private String name;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -40,8 +37,6 @@ public class Product {
     @CreationTimestamp
     private LocalDateTime published;
 
-    @NotBlank(message = "Właściwości nie mogą być puste")
-    @NotNull
     @Embedded
     ProductProperties properties;
 

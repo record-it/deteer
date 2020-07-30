@@ -9,11 +9,13 @@
             <div class="form-group">
                 <label for="product-name">Nazwa:</label>
                 <input th:field="*{name}" class="form-control" type="text" name="name" id="product-name"/>
+                <p class ="text-warning" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error></p>
             </div>
             <div class="form-group">
                 <label for="properties">Właściwości:</label>
-                <textarea th:field="*{properties}" class="form-control" name="json" id="properties">
+                <textarea th:field="*{properties}" class="form-control" name="json" id="properties"><span class ="warning" th:if="${#fields.hasErrors('properties')}" th:errors="*{properties}">Name Error</span>
                 </textarea>
+                <p class ="text-warning" th:if="${#fields.hasErrors('properties')}" th:errors="*{properties}">Name Error</p>
             </div>
             <div class="form-group">
                 <h4 class="form-text"> Załącz plik z instrukcją obsługi</h4>
