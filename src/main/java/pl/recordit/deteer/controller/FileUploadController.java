@@ -33,7 +33,7 @@ public class FileUploadController {
     @GetMapping("index")
     public String filesIndex(Model model) {
         model.addAttribute("files", fileDocumentService.findAllAsResource().collect(Collectors.toList()));
-        return "/files/files";
+        return "files/files";
     }
 
     @GetMapping("/download/{filename:.+}")
@@ -47,22 +47,13 @@ public class FileUploadController {
     @GetMapping("/upload")
     public String uploadFileForm(@ModelAttribute("fileDocumentDto") FileDocumentDto fileDocumentDto, Model model){
         model.addAttribute("products", productService.findAll());
-        return "/files/uploadFileForm";
+        return "files/uploadFileForm";
     }
 
     @PostMapping("/upload")
     public String handleUploadFile(@ModelAttribute("dto") FileDocumentDto dto){
         return fileDocumentService.save(dto).flatMap(f -> Optional.of("redirect:/files/all")).orElse("error");
     }
-
-//    @PostMapping("/upload")
-//    public String handleFileUpload(@RequestParam("file") MultipartFile file,
-//                                   RedirectAttributes redirectAttributes) {
-//        fileDocumentService.save(FileDocumentDto.builder().file(file).build());
-//        redirectAttributes.addFlashAttribute("message",
-//                "You successfully uploaded " + file.getOriginalFilename() + "!");
-//        return "redirect:/files/index";
-//    }
 
     @GetMapping("/upload/manual/{product_id}")
     public String uploadManualForm(@PathVariable long product_id, Model model) {

@@ -59,7 +59,7 @@ public class ProductController {
         return productService.findBy(id)
                 .flatMap(product ->  {
                     model.addAttribute("product", product);
-                    return Optional.of("/product/updateForm");
+                    return Optional.of("products/updateForm");
                 })
                 .orElse("redirect:/products/index");
     }
