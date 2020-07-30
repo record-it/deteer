@@ -1,0 +1,24 @@
+<html xmlns:th="https://www.thymeleaf.org">
+<head th:insert="/layout/main::head">
+<body>
+<nav th:insert="/layout/main::nav"></nav>
+<div class="container mt-4">
+    <div class="jumbotron">
+        <h1 class="display-4">Witaj w aplikacji DETEER!</h1>
+        <p class="lead">Znajdziesz tutaj specyfikacje produktów, wraz z niezbędnymi dokumentami jak instrukcje obsługi,
+            etykiety energetyczne czy karty produktów.</p>
+        <hr class="my-4">
+        <p>Aby dowiedzieć się jak działa aplikacja lub jeśli masz uprawnienia jak uzupełniać bazę produktów, zapoznaj się z
+            instrukcją obsługi aplikacji.</p>
+        <a class="btn btn-primary btn-lg" href="#" role="button">Dowiedź się więcej</a>
+    </div>
+    <p class="lead">Na skróty:</p>
+    <ul>
+        <li><a href="/products/index">Produkty</a></li>
+        <li><a href="/products/add">Dodaj produkt</a></li>
+        <li><a href="/files/index">Lista plików</a></li>
+    </ul>
+</div>
+<div th:insert="/layout/main::scripts"></div>
+</body>
+</html>

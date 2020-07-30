@@ -1,0 +1,71 @@
+<html xmlns:th="https://www.thymeleaf.org">
+<head th:insert="/layout/main::head"></head>
+<body>
+<nav th:insert="/layout/main::nav"></nav>
+<div class="container sm">
+    <div class="container col-8">
+        <!--/*@thymesVar id="product" type="pl.recordit.deteer.entity.Product"*/-->
+        <h1>Opis produktu</h1>
+        <ul class="list-group">
+            <li class="list-group-item"
+                th:each="attribute : ${product.getProperties().getPropertiesAsSet()}">
+                <div class="row align-content-center">
+                    <div class="col-6">
+                        <p class="text-right"><strong><span th:text="${attribute.getKey()}"></span></strong>:</p>
+                    </div>
+                    <div class="col">
+                        <p class="text-left"> <span th:text="${attribute.getValue()}"></span></p>
+                    </div>
+                </div>
+
+            </li>
+            <li class="list-group-item"
+                th:if="${product.getInheritedOperatingManual().isPresent()}">
+                <p>Instrukcja obsługi: <a th:href="@{/files/download/{filename}(filename = ${product.getInheritedOperatingManual().get().getOriginalFilename()})}"
+                th:text="${product.getInheritedOperatingManual().get().getVisibleName()}">
+                </a>
+                </p>
+            </li>
+            <li class="list-group-item"
+                th:if="${product.hasProductSheet()}">
+                <p>Karta produktu: <a th:href="@{/files/download/{filename}(filename = ${product.getProductSheet().getOriginalFilename()})}"
+                                          th:text="${product.getProductSheet().getVisibleName()}">
+                </a>
+                </p>
+            </li>
+            <li class="list-group-item"
+                th:if="${product.hasEnergyLabel()}">
+                <p>Etykieta energetyczna: <a th:href="@{/files/download/{filename}(filename = ${product.getEnergyLabel().getOriginalFilename()})}"
+                                          th:text="${product.getEnergyLabel().getVisibleName()}">
+                </a>
+                </p>
+            </li>
+        </ul>
+        <h2 >Dodaj uwagę</h2>
+        <!--/*@thymesVar id="comment" type="pl.recordit.deteer.dto.CommentDto"*/-->
+        <form method="post" th:action="@{/products/comments/add/{productId} (productId = ${product.getId()})}"
+        th:object="${comment}">
+            <div class="form-group">
+                <label for="content">Treść:</label>
+                <textarea class="form-control" type="text" name="content" id = "content" th:field="*{content}"></textarea>
+            </div>
+            <div class="form-group">
+                <input class="form-control btn-primary" type="submit" value="Dodaj uwagę">
+            </div>
+        </form>
+        <h2>Uwagi</h2>
+        <ul class="list-group">
+            <li class ="list-group-item" th:each="prodComment: ${product.getSortedComments()}">
+                <p th:text="${prodComment.getContent()}"></p>
+                <p>Autor: <span th:text="${prodComment.getAuthor() != null ? prodComment.getAuthor() : 'anonim'}">autor</span>
+                    <br><span th:text="${prodComment.getPublished()}">published</span>
+                    <br><span th:text="${prodComment.getStatus()}">status</span>
+                </p>
+            </li>
+        </ul>
+    </div>
+</div>
+<div th:insert="/layout/main::scripts">
+</div>
+</body>
+</html>

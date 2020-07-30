@@ -1,0 +1,16 @@
+<html xmlns:th="https://www.thymeleaf.org">
+<head th:insert="/layout/main::head"></head>
+<body>
+<nav th:insert="/layout/main::nav"></nav>
+<div class="container m-auto">
+    <h1>Lista plików</h1>
+    <ul class="list-group">
+            <li class ="list-group-item" th:each="file : ${files}">
+                <a th:href="@{/files/download/{name}(name = ${file})}" th:text="${file}"></a>
+            </li>
+        </ul>
+    </ul>
+</div>
+</body>
+<div th:insert="/layout/main::scripts"></div>
+</html>

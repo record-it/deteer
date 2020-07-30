@@ -1,0 +1,39 @@
+<html xmlns:th="https://www.thymeleaf.org" lang="pl">
+<head th:insert="/layout/main::head">
+    <title>Prześlij plik</title>
+<body>
+<!--/*@thymesVar id="product" type="pl.recordit.deteer.entity.Product"*/-->
+<nav th:insert="/layout/main::nav"></nav>
+<div class="container mt-4">
+    <div class="col-6 border-dark m-auto">
+        <h3>Prześlij plik:</h3>
+        <form method="POST" enctype="multipart/form-data" th:action="@{/files/upload}"
+              id="uploadForm" th:object="${fileDocumentDto}">
+            <div class="form-group">
+                <label class="form-check-label" for="product">
+                    Wybierz produkt, do którego chcesz przypisać plik:
+                </label>
+                <select th:field="*{productId}"
+                        class="form-control" name="product" id="product">
+                    <option th:each="product: ${products}"
+                            th:value="${product.getId()}"
+                            th:text="${product.getName()}">Product
+                    </option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="visibleName">Etykieta pliku:</label>
+                <input class="form-control" type="text" name="visibleName" id="visibleName" th:field="*{visibleName}"/>
+            </div>
+            <div class="form-group">
+                <input class="form-control-file btn-primary" type="file" name="file" id="file" th:field="*{file}"/>
+            </div>
+            <div class="form-group">
+                <input class="form-control btn-primary" type="submit" value="Prześlij plik"/>
+            </div>
+        </form>
+    </div>
+</div>
+<div th:insert="/layout/main::scripts"></div>
+</body>
+</html>

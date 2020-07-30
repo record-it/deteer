@@ -1,0 +1,56 @@
+<html xmlns:th="https://www.thymeleaf.org" lang="pl">
+<head th:insert="/layout/main::head"></head>
+<body>
+<nav th:insert="/layout/main::nav"></nav>
+<div class="container mt-4">
+    <div class="col-6 m-auto">
+        <h3>Dodaj opis produkt</h3>
+        <form th:method="post" enctype="multipart/form-data" th:action="@{/products/add}" id="productForm" th:object="${product}">
+            <div class="form-group">
+                <label for="product-name">Nazwa:</label>
+                <input th:field="*{name}" class="form-control" type="text" name="name" id="product-name"/>
+            </div>
+            <div class="form-group">
+                <label for="properties">Właściwości:</label>
+                <textarea th:field="*{properties}" class="form-control" name="json" id="properties">
+                </textarea>
+            </div>
+            <div class="form-group">
+                <h4 class="form-text"> Załącz plik z instrukcją obsługi</h4>
+                <div class="form-group">
+                    <label for="manual-visible-name">Etykieta pliku:</label>
+                    <input class="form-control" type="text" name="operatingManual.visibleName" id="manual-visible-name" th:field="*{operatingManual.visibleName}"/>
+                </div>
+                <div class="form-group">
+                    <input class="form-control-file btn-primary" type="file" name="operatingManual.file" id="manual-file" th:field="*{operatingManual.file}"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <h4 class="form-text"> Załącz plik z etykietą energetyczną</h4>
+                <div class="form-group">
+                    <label for="label-visible-name">Etykieta pliku:</label>
+                    <input class="form-control-file" type="text" name="energyLabel.visibleName" id="label-visible-name" th:field="*{energyLabel.visibleName}"/>
+                </div>
+                <div class="form-group">
+                    <input class="form-control-file btn-primary" type="file" name="energyLabel.file" id="label-file" th:field="*{energyLabel.file}"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <h4 class="form-text"> Załącz plik z kartą produktu</h4>
+                <div class="form-group">
+                    <label for="sheet-visible-name">Etykieta pliku:</label>
+                    <input class="form-control" type="text" name="productSheet.visibleName" id="sheet-visible-name" th:field="*{productSheet.visibleName}"/>
+                </div>
+                <div class="form-group">
+                    <input class="form-control-file btn-primary" type="file" name="productSheet.file" id="sheet-file" th:field="*{productSheet.file}"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <input class="form-control btn-primary" type="submit" value="Zapisz"/>
+            </div>
+        </form>
+    </div>
+</div>
+<div th:insert="/layout/main::scripts"></div>
+</body>
+</html>

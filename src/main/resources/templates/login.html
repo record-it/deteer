@@ -1,0 +1,24 @@
+<html xmlns:th="https://www.thymeleaf.org">
+<head th:insert="/layout/main::head">
+<body>
+<nav th:insert="/layout/main::nav"></nav>
+<div class="h-100 row align-items-center">
+    <div class="col-4" style="max-width: 400px; margin: 0px auto">
+        <form method="post" th:action="@{/login}" id="loginForm">
+            <div class="form-group">
+                <label for="username">Nazwa użytkownika:</label>
+                <input class="form-control" type="text" name="username" id="username"/>
+            </div>
+            <div class="form-group">
+                <label for="password">Hasło:</label>
+                <input class="form-control" type="password" name="password" id="password"/>
+            </div>
+            <div class="form-group">
+                <input class="form-control btn-primary" type="submit" value="Zaloguj"/>
+            </div>
+        </form>
+    </div>
+</div>
+<div th:insert="/layout/main::scripts"></div>
+</body>
+</html>

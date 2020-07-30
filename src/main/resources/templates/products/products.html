@@ -1,0 +1,19 @@
+<html xmlns:th="https://www.thymeleaf.org">
+<head th:insert="/layout/main::head"></head>
+<body>
+<nav th:insert="/layout/main::nav"></nav>
+<div class="container mt-4">
+    <div class="container">
+        <h1>Lista produktów</h1>
+        <div class="list-group list-group-flush">
+            <a class="list-group-item list-group-item-action"
+               th:each="product : ${products}"
+               th:href="@{/products/{id} (id = ${product.getId()})}"
+               th:text="${product.getName()}"></a>
+        </div>
+    </div>
+</div>
+<div th:insert="/layout/main::scripts">
+</div>
+</body>
+</html>
