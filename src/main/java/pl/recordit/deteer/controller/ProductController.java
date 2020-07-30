@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import pl.recordit.deteer.dto.CommentDto;
 import pl.recordit.deteer.dto.NewProductDto;
 import pl.recordit.deteer.dto.ProductDto;
-import pl.recordit.deteer.entity.Comment;
 import pl.recordit.deteer.entity.Product;
 import pl.recordit.deteer.service.CommentService;
 import pl.recordit.deteer.service.ProductService;
@@ -40,13 +39,13 @@ public class ProductController {
             model.addAttribute("product", product);
             model.addAttribute("comment", CommentDto.builder().productId(product.getId()).build());
             //TODO dodać autora do comment
-            return Optional.of("/products/product");
-        }).orElse("/products/products");
+            return Optional.of("products/product");
+        }).orElse("products/products");
     }
 
     @GetMapping(path = "/add")
     public String createProductForm(@ModelAttribute("product") NewProductDto product){
-        return "/products/newProductForm";
+        return "products/newProductForm";
     }
 
     @PostMapping("/add")
@@ -75,20 +74,20 @@ public class ProductController {
     public String allOperatingManuals(Model model){
         model.addAttribute("description", "Instrukcje obsługi produktów:");
         model.addAttribute("documents", productService.findDocuments(Product::getOperatingManual).collect(Collectors.toList()));
-        return "/products/documents";
+        return "products/documents";
     }
     @GetMapping("/labels")
     public String allEnergyLabels(Model model){
         model.addAttribute("description", "Etykiety energetyczne:");
         model.addAttribute("documents", productService.findDocuments(Product::getEnergyLabel).collect(Collectors.toList()));
-        return "/products/documents";
+        return "products/documents";
     }
 
     @GetMapping("/sheets")
     public String allProductSheets(Model model){
         model.addAttribute("description", "Karty produktów:");
         model.addAttribute("documents", productService.findDocuments(Product::getProductSheet).collect(Collectors.toList()));
-        return "/products/documents";
+        return "products/documents";
     }
 
     @PostMapping("/comments/add/{productId}")
