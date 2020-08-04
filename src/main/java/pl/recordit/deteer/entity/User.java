@@ -1,51 +1,96 @@
 package pl.recordit.deteer.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import pl.recordit.deteer.model.UserRole;
+
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.Collections;
 
 @Entity
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@AllArgsConstructor
+@Builder
 @Table(name = "users")
-public class User {
+public class User implements UserDetails {
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private long id;
 
+    @Column(unique = true)
     private String email;
 
-    private LocalDate registered;
+    @CreationTimestamp
+    private LocalDateTime registered;
 
     private String password;
 
-    @Enumerated
-    private UserRole role;
-
-    private boolean active;
+    private boolean enabled;
 
     private boolean verified;
 
-    public String getEmail(){
-        return this.email;
+    public User() {
     }
 
-    public boolean isActive(){
-        return active;
+    public LocalDateTime getRegistered() {
+        return registered;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return enabled;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return enabled;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return enabled;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return enabled;
     }
 
     public boolean isVerified() {
         return verified;
     }
 
-    public LocalDate getRegistered() {
-        return registered;
+    public String getDataToken() {
+        return email + password + registered;
     }
 }

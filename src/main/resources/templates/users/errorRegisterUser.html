@@ -1,0 +1,13 @@
+<html xmlns:th="https://www.thymeleaf.org">
+<head th:insert="main::head">
+<body>
+<nav th:insert="main::nav"></nav>
+<div class="container">
+    <h2 class="warning">Nie można zarejestrować konta</h2>
+    <p>Nie możesz zarejestrować konta za pomoca adresu: <span th:text="${email}"></span>.
+        W trakcie wysyłania maila weryfikacyjnego nastąpił błąd: <strong class="warning" th:text="${error}"></strong> .</p>
+    <a href="/register"> <button class="btn btn-primary" type="button">Do rejestracji</button></a>
+</div>
+<div th:insert="main::scripts"></div>
+</body>
+</html>

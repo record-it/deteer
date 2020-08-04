@@ -10,7 +10,9 @@
           integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400&family=Lato:ital,wght@0,400;0,700;0,900;1,300;1,700&display=swap"
           rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
+          integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog=="
+          crossorigin="anonymous"/>
     <style>
         body {
             font-family: 'Exo 2', sans-serif;
@@ -53,10 +55,28 @@
                     <a class="dropdown-item" href="/products/labels">Etykiety energetyczne</a>
                     <a class="dropdown-item" href="/products/sheets">Karty produktów</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="/files/upload">Wczytaj nowy</a>
+                    <a class="dropdown-item" href="/files/upload">Prześlij nowy</a>
                 </div>
             </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/register">Zarejestruj<span class="sr-only">(current)</span></a>
+            </li>
         </ul>
+        <div class="mr-2">
+        <span class="navbar-text">
+            Użytkownik: <strong th:text="${#authentication.isAuthenticated() ? #authentication.getName() : 'niezalogowany'}"></strong>
+        </span>
+        </div>
+        <div th:if="${#authentication.isAuthenticated()}">
+            <form class = "form-inline my-2 my-lg-0 mr-2" th:method="POST" th:action="@{/logout}">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Wyloguj</button>
+            </form>
+        </div>
+        <div th:if="${!#authentication.isAuthenticated()}">
+            <form class = "form-inline my-2 my-lg-0 mr-2" th:method="GET" th:action="@{/login}">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Zaloguj</button>
+            </form>
+        </div>
         <form class="form-inline my-2 my-lg-0">
             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Szukaj</button>

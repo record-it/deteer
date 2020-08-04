@@ -9,9 +9,8 @@ import pl.recordit.deteer.model.UserRole;
 @AllArgsConstructor
 @Builder
 public class UnregisteredUserDto {
-    private String email;
-    private String password;
-    private UserRole role;
-    private final boolean active = false;
-    private final boolean verifying = false;
+    private final String email;
+    private final String password;
+    private final boolean enabled = false;
+    private final boolean verified = false;
 }

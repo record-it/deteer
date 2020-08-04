@@ -1,45 +1,46 @@
 package pl.recordit.deteer.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailSendException;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+import pl.recordit.deteer.controll.Feedback;
+import pl.recordit.deteer.entity.User;
 
-import javax.mail.*;
-import javax.mail.internet.*;
-import java.util.Properties;
+import java.util.Optional;
 
 @Service
 public class MailService {
-    private final Properties prop;
+  private final JavaMailSender mailSender;
+  private final VerifyingTokenService verifyingTokenService;
 
-    public MailService(Properties prop) {
-        this.prop = prop;
+  @Autowired
+  public MailService(JavaMailSender mailSender, VerifyingTokenService verifyingTokenService) {
+    this.mailSender = mailSender;
+    this.verifyingTokenService = verifyingTokenService;
+  }
+
+  public void sendMailTo(String email, String subject, String content) {
+    SimpleMailMessage message = new SimpleMailMessage();
+    message.setFrom("deteer@record-it.pl");
+    message.setTo(email);
+    message.setSubject(subject);
+    message.setText(content);
+    mailSender.send(message);
+  }
+
+  public Feedback sendVerifyingMail(String email, String verifyingLink) {
+    try {
+      SimpleMailMessage message = new SimpleMailMessage();
+      message.setFrom("deteer@record-it.pl");
+      message.setTo(email);
+      message.setSubject("Weryfikacja konta w DETEER");
+      message.setText("Kliknik na link, aby uaktywnić zarejestrowanego użytkownika w aplikacji DETEER: " + verifyingLink);
+      mailSender.send(message);
+      return Feedback.ofSuccess();
+    } catch (MailSendException e) {
+      return Feedback.ofError(e.getMessage());
     }
-
-
-    public void sendMailTo(String username, String password, String email, String subject, String content) {
-        Session session = Session.getInstance(prop, new Authenticator() {
-            @Override
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(username, password);
-            }
-        });
-        try {
-            Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress("blooog@record-it.pl"));
-            message.setRecipients(
-                    Message.RecipientType.TO, InternetAddress.parse(email));
-            message.setSubject(subject);
-
-            MimeBodyPart mimeBodyPart = new MimeBodyPart();
-            mimeBodyPart.setContent(content, "text/html");
-
-            Multipart multipart = new MimeMultipart();
-            multipart.addBodyPart(mimeBodyPart);
-            message.setContent(multipart);
-            Transport.send(message);
-        } catch (AddressException e) {
-            System.err.println("Address unknown");
-        } catch (MessagingException e) {
-            System.err.println("Messaging exception " + e);
-        }
-    }
+  }
 }

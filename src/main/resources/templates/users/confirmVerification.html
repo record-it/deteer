@@ -1,0 +1,13 @@
+<html xmlns:th="https://www.thymeleaf.org">
+<head th:insert="main::head">
+<body>
+<nav th:insert="main::nav"></nav>
+<div class="container">
+    <h2>Potwierdzenie weryfikacji</h2>
+    <p> Konto zostało pomyślnie zweryfikowane. Możesz się zalogować</p>
+    <a href="/login"> <button class="btn btn-primary" type="button">Zaloguj</button></a>
+
+</div>
+<div th:insert="main::scripts"></div>
+</body>
+</html>

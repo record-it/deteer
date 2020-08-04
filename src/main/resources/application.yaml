@@ -1,8 +1,5 @@
 spring:
   datasource:
-#    url: jdbc:postgresql://localhost:5432/deteer?useSSL=false
-#    username: postgres
-#    password: 1234
     url: ${JDBC_DATABASE_URL}
     username: ${JDBC_DATABASE_USERNAME}
     password: ${JDBC_DATABASE_PASSWORD}
@@ -12,3 +9,9 @@ spring:
     hibernate:
       ddl-auto: update
       naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+  mail:
+    host: mail.record-it.pl
+    port: 587
+    username: blooog@record-it.pl
+    password: ${MAIL_PASSWORD}
+    protocol: smtp

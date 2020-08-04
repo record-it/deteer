@@ -1,0 +1,12 @@
+<html xmlns:th="https://www.thymeleaf.org">
+<head th:insert="main::head">
+<body>
+<nav th:insert="main::nav"></nav>
+<div class="container">
+    <h2 class="error">Błąd</h2>
+    <p>Wystąpił błąd lub odwołanie do nieistniejącej strony. Możesz wrócić do strony startowej.</p>
+    <a href="/"> <button class="btn btn-primary" type="button">Home</button></a>
+</div>
+<div th:insert="main::scripts"></div>
+</body>
+</html>

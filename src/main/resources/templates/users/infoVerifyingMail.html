@@ -1,0 +1,12 @@
+<html xmlns:th="https://www.thymeleaf.org">
+<head th:insert="main::head">
+<body>
+<nav th:insert="main::nav"></nav>
+<div class="container">
+    <h2>Weryfikacja rejestrowanego konta</h2>
+    <p>Na podany adres <span th:text="${email}"></span>
+        został wysłany mail z linkiem aktywacyjnym. Kliknij na niego, aby zweryfikować podane konto email i uaktywnić konto w aplikacji DETEER</p>
+</div>
+<div th:insert="main::scripts"></div>
+</body>
+</html>
