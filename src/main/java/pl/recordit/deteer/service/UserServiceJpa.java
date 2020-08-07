@@ -69,7 +69,7 @@ public class UserServiceJpa implements UserService {
 
   @Override
   public Optional<User> findById(long id) {
-    return Optional.empty();
+    return repository.findById(id);
   }
 
   @Override

@@ -14,4 +14,5 @@ public interface FileDocumentService {
     Resource findByFileName(String filename);
     Stream<Path> findAllAsResource();
     Stream<FileDocument> findAll();
+    Stream<FileDocument> findByProductId(long productId);
 }

@@ -3,6 +3,7 @@ package pl.recordit.deteer.entity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
+import pl.recordit.deteer.model.InheritedPropertyMap;
 import pl.recordit.deteer.model.JsonMap;
 
 import javax.persistence.Embeddable;
@@ -17,12 +18,21 @@ public class ProductProperties {
     private String json;
     @Transient
     private JsonMap jsonMap = JsonMap.EMPTY;
+    @Transient
+    private InheritedPropertyMap properties = InheritedPropertyMap.EMPTY;
 
     public JsonMap getJsonMap() {
         if (jsonMap == JsonMap.EMPTY && json != null) {
             jsonMap = JsonMap.fromJson(json);
         }
         return jsonMap;
+    }
+
+    public InheritedPropertyMap getDetailedPropertiesMap(Long originId, String originName){
+        if (properties == InheritedPropertyMap.EMPTY || json != null) {
+            properties = InheritedPropertyMap.fromJson(json, originId, originName);
+        }
+        return properties;
     }
 
     public String getJson() {
@@ -42,6 +52,10 @@ public class ProductProperties {
     public void removeProperty(String key){
         jsonMap = jsonMap.removeAttribute(key);
         json = jsonMap.toJson().orElse(json);
+    }
+
+    public String asString(){
+        return json;
     }
 }
 

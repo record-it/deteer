@@ -1,7 +1,6 @@
 package pl.recordit.deteer.mapper;
 
 import lombok.Builder;
-import pl.recordit.deteer.dto.NewProductDto;
 import pl.recordit.deteer.dto.ProductDto;
 import pl.recordit.deteer.entity.FileDocument;
 import pl.recordit.deteer.entity.Product;
@@ -27,7 +26,8 @@ public class ProductMapper {
                 .energyLabelId(Optional.ofNullable(entity.getEnergyLabel()).flatMap(p -> Optional.of(p.getId())).orElse(null))
                 .operatingManualId(Optional.ofNullable(entity.getOperatingManual()).flatMap(p -> Optional.of(p.getId())).orElse(null))
                 .productSheetId(Optional.ofNullable(entity.getOperatingManual()).flatMap(p -> Optional.of(p.getId())).orElse(null))
-                .properties(entity.getJson()).build();
+                .properties(entity.getPropertiesAsJson())
+                .build();
     }
 
     public Optional<Product> fromDto(ProductDto dto) {

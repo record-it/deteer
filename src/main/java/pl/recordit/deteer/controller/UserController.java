@@ -28,7 +28,6 @@ public class UserController {
 
   @PostMapping("/register")
   public String registerUser(HttpServletRequest request, UnregisteredUserDto unregisteredUserDto, Model model) {
-
     if (userService.isEmailExists(unregisteredUserDto.getEmail())) {
       model.addAttribute("email", unregisteredUserDto.getEmail());
       return "users/errorExistingEmail";

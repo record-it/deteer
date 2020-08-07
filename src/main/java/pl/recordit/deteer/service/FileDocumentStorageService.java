@@ -58,4 +58,9 @@ public class FileDocumentStorageService implements FileDocumentService {
     public Stream<FileDocument> findAll() {
         return fileRepo.findAll().stream();
     }
+
+    @Override
+    public Stream<FileDocument> findByProductId(long productId) {
+        return fileRepo.findByProductId(productId).stream();
+    }
 }

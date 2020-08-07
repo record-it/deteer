@@ -15,7 +15,6 @@ public class CommentMapper {
     private final Function<Long, Product> productMap;
     private final Function<Long, User> authorMap;
     public Optional<Comment> fromDto(CommentDto dto) {
-        //TODO dodać warunek, że autor nie może być null
         return  dto != null && dto.getContent() != null && dto.getProductId() != null
                 ? Optional.of(Comment.builder()
                 .content(dto.getContent())

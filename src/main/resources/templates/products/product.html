@@ -5,59 +5,77 @@
 <div class="container sm">
     <div class="container col-8">
         <!--/*@thymesVar id="product" type="pl.recordit.deteer.entity.Product"*/-->
-        <h1>Opis produktu</h1>
+        <h1>Opis produktu: <span th:text="${product.getName()}"></h1>
+        <h3 class="lead" th:if="${product.hasParent()}">Wersja:
+            <a th:text="${product.parent.getName()}"
+               th:href="@{/products/{id}(id = ${product.getParent().getId()})}"></a>
+        </h3>
         <ul class="list-group">
             <li class="list-group-item"
-                th:each="attribute : ${product.getProperties().getPropertiesAsSet()}">
+                th:each="attribute : ${product.getDetailedProperties().getPropertiesAsSet()}">
                 <div class="row align-content-center">
                     <div class="col-6">
                         <p class="text-right"><strong><span th:text="${attribute.getKey()}"></span></strong>:</p>
                     </div>
                     <div class="col">
-                        <p class="text-left"> <span th:text="${attribute.getValue()}"></span></p>
+                        <p class="text-left text-secondary" th:if="${attribute.getValue().isNative(product.id)}"><span
+                                th:text="${attribute.getValue().getValue()}"></span></p>
+                        <a class="text-left text-primary"
+                           th:href="@{/products/{id}(id=${attribute.getValue().getInheritanceSourceId()})}"
+                           th:if="${attribute.getValue().isInherited(product.id)}"><span
+                                th:text="${attribute.getValue().getValue()}"></span></a>
                     </div>
                 </div>
-
             </li>
             <li class="list-group-item"
                 th:if="${product.getInheritedOperatingManual().isPresent()}">
-                <p>Instrukcja obsługi: <a th:href="@{/files/download/{filename}(filename = ${product.getInheritedOperatingManual().get().getOriginalFilename()})}"
-                th:text="${product.getInheritedOperatingManual().get().getVisibleName()}">
+                <p>Instrukcja obsługi: <a
+                        th:href="@{/files/download/{filename}(filename = ${product.getInheritedOperatingManual().get().getOriginalFilename()})}"
+                        th:text="${product.getInheritedOperatingManual().get().getVisibleName()}">
                 </a>
                 </p>
             </li>
             <li class="list-group-item"
                 th:if="${product.hasProductSheet()}">
-                <p>Karta produktu: <a th:href="@{/files/download/{filename}(filename = ${product.getProductSheet().getOriginalFilename()})}"
-                                          th:text="${product.getProductSheet().getVisibleName()}">
+                <p>Karta produktu: <a
+                        th:href="@{/files/download/{filename}(filename = ${product.getProductSheet().getOriginalFilename()})}"
+                        th:text="${product.getProductSheet().getVisibleName()}">
                 </a>
                 </p>
             </li>
             <li class="list-group-item"
                 th:if="${product.hasEnergyLabel()}">
-                <p>Etykieta energetyczna: <a th:href="@{/files/download/{filename}(filename = ${product.getEnergyLabel().getOriginalFilename()})}"
-                                          th:text="${product.getEnergyLabel().getVisibleName()}">
+                <p>Etykieta energetyczna: <a
+                        th:href="@{/files/download/{filename}(filename = ${product.getEnergyLabel().getOriginalFilename()})}"
+                        th:text="${product.getEnergyLabel().getVisibleName()}">
                 </a>
                 </p>
             </li>
+            <!--/*@thymesVar id="documents" type="pl.recordit.deteer.entity.FileDocument"*/-->
+            <h3 th:if="${!documents.isEmpty()}">Pozostałe dokumenty związane z produktem</h3>
+            <li class="list-group-item"
+                th:each="document: ${documents}">
+                <a th:href="${document.getLink()}" th:text="${document.getVisibleLink()}"></a>
+            </li>
         </ul>
-        <h2 >Dodaj uwagę</h2>
+        <h2>Dodaj uwagę</h2>
         <!--/*@thymesVar id="comment" type="pl.recordit.deteer.dto.CommentDto"*/-->
         <form method="post" th:action="@{/products/comments/add/{productId} (productId = ${product.getId()})}"
-        th:object="${comment}">
+              th:object="${comment}">
             <div class="form-group">
                 <label for="content">Treść:</label>
-                <textarea class="form-control" type="text" name="content" id = "content" th:field="*{content}"></textarea>
+                <textarea class="form-control" type="text" name="content" id="content" th:field="*{content}"></textarea>
             </div>
             <div class="form-group">
-                <input class="form-control btn-primary" type="submit" value="Dodaj uwagę">
+                <input class="form-control btn-primary" type="submit" value="Opublikuj">
             </div>
         </form>
         <h2>Uwagi</h2>
         <ul class="list-group">
-            <li class ="list-group-item" th:each="prodComment: ${product.getSortedComments()}">
+            <li class="list-group-item" th:each="prodComment: ${product.getSortedComments()}">
                 <p th:text="${prodComment.getContent()}"></p>
-                <p>Autor: <span th:text="${prodComment.getAuthor() != null ? prodComment.getAuthor() : 'anonim'}">autor</span>
+                <p>Autor: <span
+                        th:text="${prodComment.getAuthor() != null ? prodComment.getAuthor().getUsername() : 'anonim'}">autor</span>
                     <br><span th:text="${prodComment.getPublished()}">published</span>
                     <br><span th:text="${prodComment.getStatus()}">status</span>
                 </p>

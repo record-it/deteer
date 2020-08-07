@@ -1,0 +1,82 @@
+<html xmlns:th="https://www.thymeleaf.org">
+<head th:insert="main::head"></head>
+<body>
+<nav th:insert="main::nav"></nav>
+<div class="container mt-4">
+    <div class="col-6 m-auto">
+        <h3>Zmień dane produktu:</h3>
+        <!--/*@thymesVar id="product" type="pl.recordit.deteer.entity.Product"*/-->
+        <!--/*@thymesVar id="properties" type="pl.recordit.deteer.entity.ProductProperties"*/-->
+        <form method="post"
+              id="product-form"
+              th:action="@{/products/update/{id}(id=${product.getId()})}"
+              th:object="${product}">
+            <input type="hidden"
+                   th:field="*{id}"
+                   name="id"
+                   form="product-form">
+            <label for="product-name">Nazwa:</label>
+            <div class="form-group">
+                <input class="form-control"
+                       type="text"
+                       th:field="*{name}"
+                       name="name"
+                       id="product-name"
+                       form="product-form"/>
+            </div>
+            <div class="form-group">
+                <label for="product-created">Data utworzenia:</label>
+                <input class="form-control"
+                       th:value="${product.getPublished()}"
+                       readonly type="datetime-local"
+                       name="created"
+                       id="product-created"
+                       form="product-form"/>
+            </div>
+            <div class="form-group">
+                <label for="user">Użytkownik:</label>
+                <input class="form-control"
+                       readonly type="text"
+                       th:value="${product.getPublisher() != null ? product.getPublisher().getEmail():'BRAK'}"
+                       name="user"
+                       id="user"
+                       form="product-form"/>
+            </div>
+            <div class="form-group">
+                <label for="properties">Właściwości:</label>
+                <textarea class="form-control"
+                          name="properties"
+                          th:text="${product.getPropertiesAsJson()}"
+                          id="properties"
+                          form="product-form">
+                </textarea>
+            </div>
+            <div class="form-group">
+                <input class="form-control btn-primary" type="submit" value="Zapisz" form="product-form"/>
+            </div>
+        </form>
+        <form method="get"
+              id="manual-form"
+              th:action="@{/files/upload/manual/{id}(id=${product.getId()})}"
+              th:object="${product}">
+            <input type="hidden"
+                   th:field="*{id}"
+                   name="id"
+                   form="manual-form">
+            <div class="form-group">
+                <div class="form-group">
+                    <label for="manual">DTR</label>
+                    <input readonly
+                           type="text"
+                           class="form-control"
+                           th:value="${product.getOperatingManual() != null ? product.getOperatingManual().getOriginalFilename() :'BRAK'}"
+                           id="manual"/>
+                    <button class="form-control btn-primary" type="submit" form="manual-form">Wczytaj nowy</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div th:insert="main::scripts"></div>
+</body>
+</html>

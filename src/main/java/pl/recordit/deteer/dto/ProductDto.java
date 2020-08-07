@@ -14,8 +14,8 @@ import pl.recordit.deteer.entity.Product;
 public class ProductDto {
     private String properties;
     private String name;
-    private Long  parentId;
-    private Long  operatingManualId;
+    private Long parentId;
+    private Long operatingManualId;
     private Long energyLabelId;
     private Long productSheetId;
 }

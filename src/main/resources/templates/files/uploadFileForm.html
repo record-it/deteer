@@ -7,7 +7,9 @@
 <div class="container mt-4">
     <div class="col-6 border-dark m-auto">
         <h3>Prześlij plik:</h3>
-        <form method="POST" enctype="multipart/form-data" th:action="@{/files/upload}"
+        <form method="POST"
+              enctype="multipart/form-data"
+              th:action="@{/files/upload}"
               id="uploadForm" th:object="${fileDocumentDto}">
             <div class="form-group">
                 <label class="form-check-label" for="product">

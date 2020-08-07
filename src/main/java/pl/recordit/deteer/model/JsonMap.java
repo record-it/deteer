@@ -69,17 +69,24 @@ public class JsonMap {
     }
 
     public List<String> propertiesAsStrings(){
-        return Collections.unmodifiableList(properties.entrySet().stream().map(entry -> entry.getKey() +": " + entry.getValue()).collect(Collectors.toList()));
+        return Collections.unmodifiableList(
+                properties.entrySet()
+                .stream()
+                .map(entry -> entry.getKey() +": " + entry.getValue())
+                .collect(Collectors.toList())
+        );
     }
 
     public Set<Map.Entry<String, Object>> getPropertiesAsSet(){
-        return properties.entrySet();
+
+        return properties != null ? properties.entrySet() : Collections.emptySet();
     }
     public JsonMap mergeWithInheritance(JsonMap parentMap){
         Map<String, Object> current = new LinkedHashMap<>(properties);
         parentMap.properties.forEach((key, value) -> current.merge(key, value, (v1, v2) -> v1));
         return new JsonMap(current);
     }
+
 
     public JsonMap addAttribute(String key, Object value){
         Map<String, Object> newMap = new HashMap<>(properties);

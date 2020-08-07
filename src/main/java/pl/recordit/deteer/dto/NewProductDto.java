@@ -13,9 +13,9 @@ import javax.validation.constraints.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class NewProductDto {
-    @Size(min=5, max = 2000, message = "Niepoprawna długość, powinna być od 5 do 2000")
+    @Size(min=10, max = 2000, message = "Niepoprawna długość, powinna być od 5 do 2000")
     private String properties;
-    @Size(min=5, max = 50, message = "Zbyt krótka (mniej niż 5 znaków) lub zbyt długa (powyżej 50 znaków) nazwa!")
+    @Size(min=4, max = 50, message = "Zbyt krótka (mniej niż 5 znaków) lub zbyt długa (powyżej 50 znaków) nazwa!")
     private String name;
     private Long  parentId;
     private FileDocumentDto operatingManual;
