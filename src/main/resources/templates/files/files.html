@@ -6,7 +6,7 @@
     <h1>Lista plików</h1>
     <ul class="list-group">
             <li class ="list-group-item" th:each="file : ${files}">
-                <a th:href="@{/files/download/{name}(name = ${file})}" th:text="${file}"></a>
+                <a th:href="@{/download/{name}(name = ${file.getFileName()})}" th:text="${file}"></a>
             </li>
         </ul>
     </ul>

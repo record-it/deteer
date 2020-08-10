@@ -3,16 +3,20 @@
 <body>
 <nav th:insert="main::nav"></nav>
 <div class="container mt-4">
-    <div class="container">
-        <h1>Lista produktów</h1>
+    <div class="container col-8 m-auto">
+        <h1 th:text="${header}">Lista produktów</h1>
         <div class="list-group">
             <div class="row" th:each="product : ${products}">
                 <div class="col-6">
-                <a th:href="@{/products/{id} (id = ${product.getId()})}"
-                   th:text="${product.getName()}"></a>
+                    <a th:href="@{/products/{id} (id = ${product.getId()})}"
+                       th:text="${product.getName()}"></a>
                 </div>
                 <div class="col">
-                    <a class="text-right" th:href="@{/products/add/{id} (id= ${product.getId()})}"><i class="far fa-plus-square"></i></a>
+                    <div class="row"></div>
+                    <p class="text-right">
+                        <a th:href="@{/products/add/{id} (id= ${product.getId()})}">
+                            <i class="far fa-plus-square"></i></a>
+                    </p>
                 </div>
             </div>
         </div>

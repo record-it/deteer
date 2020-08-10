@@ -8,6 +8,8 @@ import java.util.stream.Stream;
 
 public interface CommentService {
     Optional<Comment> create(CommentDto dto);
+
     Stream<Comment> findAll();
+
     Stream<Comment> findByProduct(Long id);
 }

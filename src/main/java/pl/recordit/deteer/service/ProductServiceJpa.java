@@ -85,7 +85,7 @@ public class ProductServiceJpa implements ProductService {
   @Override
   public List<Product> findByName(String name) {
     return prodRepo.findAll().stream()
-            .filter(p -> p.getName().contains(name))
+            .filter(p -> p.getName().toLowerCase().contains(name.toLowerCase()))
             .collect(Collectors.toList());
   }
 
@@ -116,13 +116,13 @@ public class ProductServiceJpa implements ProductService {
   }
 
   @Override
-  public Stream<FileDocument> findAllDocumentsForProduct(long productId) {
+  public Stream<FileDocument> findAllPublicDocumentsForProduct(long productId) {
     Optional<Product> oProduct = prodRepo.findById(productId);
-    if (!oProduct.isPresent()) {
+    if (oProduct.isEmpty()) {
       return Stream.empty();
     }
     Product product = oProduct.get();
-    return fileDocumentService.findByProductId(productId)
+    return fileDocumentService.findByProductId(productId, FileDocument::isPublic)
             .filter(doc -> product.hasOperatingManual() && doc.getId() != product.getOperatingManual().getId())
             .filter(doc -> product.hasEnergyLabel() && doc.getId() != product.getEnergyLabel().getId())
             .filter(doc -> product.hasProductSheet() && doc.getId() != product.getProductSheet().getId());

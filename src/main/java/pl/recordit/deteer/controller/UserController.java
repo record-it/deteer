@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import pl.recordit.deteer.controll.Feedback;
 import pl.recordit.deteer.dto.UnregisteredUserDto;
 import pl.recordit.deteer.service.UserService;
+import pl.recordit.deteer.validation.PasswordValidator;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Optional;
 
 @Controller
 public class UserController {
@@ -32,6 +34,11 @@ public class UserController {
       model.addAttribute("email", unregisteredUserDto.getEmail());
       return "users/errorExistingEmail";
     }
+    Optional<String> validationError = PasswordValidator.DEFAULT.validateAndGetError(unregisteredUserDto.getPassword());
+    if (validationError.isPresent()){
+      model.addAttribute("error", validationError.get());
+      return "users/errorInvalidPassword";
+    }
     Feedback feedback = userService.register(unregisteredUserDto, (id, token) -> String.format("%s/verify/%d/%s", request.getContextPath(), id, token));
     model.addAttribute("email", unregisteredUserDto.getEmail());
     if (feedback.isError()) {
@@ -49,7 +56,6 @@ public class UserController {
       case ALREADY_VERIFIED:
         return "users/errorAlreadyVerified";
       case NOT_VERIFIED:
-        ;
       default:
         return "error";
     }

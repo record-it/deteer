@@ -36,6 +36,7 @@ public class ProductController {
 
   @GetMapping(path = "/index")
   public String allProducts(Model model) {
+    model.addAttribute("header","Lista wszystkich produktów:");
     model.addAttribute("products", productService.findAll());
     return "products/products";
   }
@@ -45,10 +46,11 @@ public class ProductController {
     return productService
             .findBy(id)
             .flatMap(product -> {
+              model.addAttribute("header","Lista wszystkich produktów");
               model.addAttribute("product", product);
               model.addAttribute("comment", CommentDto.builder().productId(product.getId()).build());
               model.addAttribute("documents",
-                      productService.findAllDocumentsForProduct(product.getId())
+                      productService.findAllPublicDocumentsForProduct(product.getId())
                               .flatMap(doc -> Stream.of(doc.generateLink("/files/download")))
                               .collect(Collectors.toList()));
               return Optional.of("products/product");

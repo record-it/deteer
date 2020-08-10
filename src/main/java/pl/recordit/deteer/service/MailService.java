@@ -12,7 +12,9 @@ import java.util.Optional;
 
 @Service
 public class MailService {
+
   private final JavaMailSender mailSender;
+
   private final VerifyingTokenService verifyingTokenService;
 
   @Autowired

@@ -36,14 +36,6 @@ public class FileUploadController {
         return "files/files";
     }
 
-    @GetMapping("/download/{filename:.+}")
-    @ResponseBody
-    public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
-        Resource file = fileDocumentService.findByFileName(filename);
-        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
-                "attachment; filename=\"" + file.getFilename() + "\"").body(file);
-    }
-
     @GetMapping("/upload")
     public String uploadFileForm(@ModelAttribute("fileDocumentDto") FileDocumentDto fileDocumentDto, Model model){
         model.addAttribute("products", productService.findAll());
@@ -60,7 +52,7 @@ public class FileUploadController {
         return productService.findBy(product_id)
                 .flatMap(product -> {
                             model.addAttribute("product", product);
-                            return Optional.of("/file/uploadManualForm");
+                            return Optional.of("/files/uploadManualForm");
                         }
                 ).orElse("redirect:/products/index");
     }

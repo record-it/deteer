@@ -6,7 +6,7 @@
     <h1 th:text="${description}"></h1>
     <ul class="list-group">
         <li class="list-group-item" th:each="document : ${documents}">
-            <a th:href="@{/files/download/{name}(name = ${document.getOriginalFilename()})}"
+            <a th:href="@{/download/{name}(name = ${document.getOriginalFilename()})}"
                th:text="${document.getVisibleName()}">aaaa</a>
         </li>
     </ul>

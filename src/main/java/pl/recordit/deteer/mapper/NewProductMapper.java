@@ -22,7 +22,7 @@ public class NewProductMapper {
     private final Supplier<User> userSupplier;
 
     public Optional<Product> fromDto(NewProductDto dto) {
-        Optional<Product> product = dto != null && dto.getProperties() != null
+        return dto != null && dto.getProperties() != null
                 ? Optional.of(Product.builder()
                 .properties(ProductProperties.builder().json(dto.getProperties()).build())
                 .name(dto.getName())
@@ -33,6 +33,5 @@ public class NewProductMapper {
                 .publisher(userSupplier != null ? userSupplier.get() : null)
                 .build())
                 : Optional.empty();
-        return product;
     }
 }

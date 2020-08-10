@@ -16,9 +16,7 @@ import java.util.function.Supplier;
 public class FileDocument {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @EqualsAndHashCode.Include
     @Getter
-    @Setter
     private long id;
 
     @Getter
@@ -27,6 +25,8 @@ public class FileDocument {
 
     @Getter
     @Setter
+    @EqualsAndHashCode.Include
+    @Column(unique = true)
     private String originalFilename;
 
     @Getter
@@ -48,8 +48,13 @@ public class FileDocument {
     @Getter
     private String link = "";
 
+    @Getter
+    @Setter
+    private boolean isPublic;
+
     public FileDocument generateLink(String path){
         link = String.format("%s/%s",path,originalFilename);
         return this;
     }
+    //TODO implement proper equals and hashCode
 }

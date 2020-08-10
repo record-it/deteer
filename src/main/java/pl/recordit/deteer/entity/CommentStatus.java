@@ -1,7 +1,5 @@
 package pl.recordit.deteer.entity;
 
-import pl.recordit.deteer.service.CommentService;
-
 public enum CommentStatus {
     REGISTERED("Zgłoszono"),
     CONSIDERED("W trakcie rozważania"),

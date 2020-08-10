@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import pl.recordit.deteer.model.UserRole;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -34,6 +35,7 @@ public class User implements UserDetails {
     @CreationTimestamp
     private LocalDateTime registered;
 
+    @Size(min = 8, max = 20, message = "Hasło musi zawierać co najmniej 8 znaków!")
     private String password;
 
     private boolean enabled;

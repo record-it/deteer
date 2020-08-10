@@ -69,7 +69,7 @@
                     <input readonly
                            type="text"
                            class="form-control"
-                           th:value="${product.getOperatingManual() != null ? product.getOperatingManual().getOriginalFilename() :'BRAK'}"
+                           th:value="${product.hasOperatingManual() ? product.getOperatingManual().getOriginalFilename() :'BRAK'}"
                            id="manual"/>
                     <button class="form-control btn-primary" type="submit" form="manual-form">Wczytaj nowy</button>
                 </div>

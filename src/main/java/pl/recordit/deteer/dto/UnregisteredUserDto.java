@@ -3,7 +3,6 @@ package pl.recordit.deteer.dto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import pl.recordit.deteer.model.UserRole;
 
 @Data
 @AllArgsConstructor

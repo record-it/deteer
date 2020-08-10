@@ -9,8 +9,13 @@ import java.util.function.BiFunction;
 
 @Service
 public interface UserService {
+
     Feedback register(UnregisteredUserDto user, BiFunction<Long, String, String> linkGenerator);
+
     VerificationStatus verifyUser(String token, long userId);
+
     Optional<User> findById(long id);
+
     boolean isEmailExists(String email);
+
 }

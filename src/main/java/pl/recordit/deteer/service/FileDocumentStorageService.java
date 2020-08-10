@@ -3,30 +3,37 @@ package pl.recordit.deteer.service;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import pl.recordit.deteer.dto.FileDocumentDto;
+import pl.recordit.deteer.entity.Product;
 import pl.recordit.deteer.mapper.FileDocumentMapper;
 import pl.recordit.deteer.entity.FileDocument;
 import pl.recordit.deteer.repository.FileDocumentRepository;
 import pl.recordit.deteer.repository.ProductRepository;
 import pl.recordit.deteer.storage.StorageService;
 
+import java.io.File;
 import java.nio.file.Path;
 import java.util.Optional;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 @Service
 public class FileDocumentStorageService implements FileDocumentService {
+
     private final StorageService storageService;
+
     private final FileDocumentRepository fileRepo;
+
     private final FileDocumentMapper newDocumentMapper;
-    private final ProductRepository prodRepo;
+
+    private final ProductRepository productRepository;
 
 
     public FileDocumentStorageService(StorageService storageService, FileDocumentRepository repository, ProductRepository productRepository) {
         this.storageService = storageService;
         this.fileRepo = repository;
-        this.prodRepo = productRepository;
+        this.productRepository = productRepository;
         newDocumentMapper = FileDocumentMapper.builder()
-                .ownerMap(id -> productRepository.findById(id).orElse(null))
+                .ownerMap(id -> this.productRepository.findById(id).orElse(null))
                 .build();
     }
 
@@ -60,7 +67,7 @@ public class FileDocumentStorageService implements FileDocumentService {
     }
 
     @Override
-    public Stream<FileDocument> findByProductId(long productId) {
-        return fileRepo.findByProductId(productId).stream();
+    public Stream<FileDocument> findByProductId(long productId, Predicate<FileDocument> filter) {
+        return fileRepo.findByProductId(productId).stream().filter(filter);
     }
 }

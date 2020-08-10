@@ -19,10 +19,15 @@ import java.util.logging.Logger;
 
 @Service
 public class UserServiceJpa implements UserService {
+
   private final UserRepository repository;
+
   private final MailService mailService;
+
   private final VerifyingTokenService verifyingTokenService;
+
   private final PasswordEncoder passwordEncoder;
+
   private final Logger logger = Logger.getLogger(UserServiceJpa.class.getName());
 
   public UserServiceJpa(UserRepository repository, MailService mailService, VerifyingTokenService verifyingTokenService, PasswordEncoder passwordEncoder) throws IOException {

@@ -8,7 +8,7 @@
         <h4 th:if="${parent != null}" th:text="${parent.getName()}"></h4>
         <form th:method="post" enctype="multipart/form-data" th:action="@{/products/add}" id="productForm" th:object="${product}">
             <div th:if="${parent != null}">
-                <input type=""hidden th:field="*{parentId}" th:value="${parent.getId()}" name="parentId">
+                <input type="idden" th:field="*{parentId}" th:value="${parent.getId()}" name="parentId">
             </div>
                 <div class="form-group">
                 <label for="product-name">Nazwa:</label>
@@ -35,7 +35,7 @@
                 <h4 class="form-text"> Załącz plik z etykietą energetyczną</h4>
                 <div class="form-group">
                     <label for="label-visible-name">Etykieta pliku:</label>
-                    <input class="form-control-file" type="text" name="energyLabel.visibleName" id="label-visible-name" th:field="*{energyLabel.visibleName}"/>
+                    <input class="form-control" type="text" name="energyLabel.visibleName" id="label-visible-name" th:field="*{energyLabel.visibleName}"/>
                 </div>
                 <div class="form-group">
                     <input class="form-control-file btn-primary" type="file" name="energyLabel.file" id="label-file" th:field="*{energyLabel.file}"/>

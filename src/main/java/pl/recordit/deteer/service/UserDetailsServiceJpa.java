@@ -10,11 +10,11 @@ import pl.recordit.deteer.repository.UserRepository;
 import java.util.Optional;
 
 @Service
-public class UserRepositoryUserDetailsService implements UserDetailsService {
+public class UserDetailsServiceJpa implements UserDetailsService {
     private final UserRepository userRepository;
 
     @Autowired
-    public UserRepositoryUserDetailsService(UserRepository userRepository) {
+    public UserDetailsServiceJpa(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 

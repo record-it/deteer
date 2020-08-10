@@ -3,9 +3,9 @@
 <body>
 <!--/*@thymesVar id="product" type="pl.recordit.deteer.entity.Product"*/-->
 <nav th:insert="main::nav"></nav>
-<div class="containe mt-4">
-    <div class="col-6 border-dark">
-        <h3>Prześlij plik związany z produktem</h3>
+<div class="container mt-4">
+    <div class="col-6 m-auto border-dark">
+        <h3>Prześlij instrukcję obsługi  produktu</h3>
         <form class="border-secondary" method="POST" enctype="multipart/form-data" th:action="@{/files/upload/manual}" id="uploadForm">
             <input type="text" hidden th:value="${product.getId()}" name="product_id">
             <div class="form-group">
@@ -17,10 +17,10 @@
                 <input class="form-control" readonly type="text" th:value="${product.getName()}">
             </div>
             <div class="form-group">
-                <input class="form-control-file" type="file" name="file" id="file"/>
+                <input class="form-control-file btn-primary" type="file" name="file" id="file"/>
             </div>
             <div class="form-group">
-                <input class="form-control" type="submit" value="Prześlij plik"/>
+                <input class="form-control btn btn-primary" type="submit" value="Prześlij plik"/>
             </div>
         </form>
     </div>

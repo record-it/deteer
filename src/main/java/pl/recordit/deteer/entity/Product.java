@@ -4,7 +4,6 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import pl.recordit.deteer.model.InheritedPropertyMap;
 import pl.recordit.deteer.model.JsonMap;
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -27,7 +26,7 @@ public class Product {
 
   private String name;
 
-  @ManyToOne(fetch = FetchType.EAGER)
+  @ManyToOne(fetch = FetchType.LAZY)
   private Product parent;
 
   @ManyToOne

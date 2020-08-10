@@ -5,7 +5,6 @@ import pl.recordit.deteer.dto.CommentDto;
 import pl.recordit.deteer.entity.Comment;
 import pl.recordit.deteer.mapper.CommentMapper;
 import pl.recordit.deteer.repository.CommentRepository;
-
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -34,7 +33,7 @@ public class CommentServiceJpa implements CommentService{
 
     @Override
     public Stream<Comment> findAll() {
-        return commentRepository.findAll().stream();
+        return commentRepository.findAll().stream().sorted();
     }
 
     @Override

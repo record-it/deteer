@@ -64,21 +64,21 @@
         </ul>
         <div class="mr-2">
         <span class="navbar-text">
-            Użytkownik: <strong th:text="${#authentication.isAuthenticated() ? #authentication.getName() : 'niezalogowany'}"></strong>
+            Użytkownik: <strong th:text="${#strings.equals(#authentication.getName(), 'anonymousUser') ? 'niezalogowany' : #authentication.getName() }"></strong>
         </span>
         </div>
-        <div th:if="${#authentication.isAuthenticated()}">
+        <div th:if="${!#strings.equals(#authentication.getName(), 'anonymousUser')}">
             <form class = "form-inline my-2 my-lg-0 mr-2" th:method="POST" th:action="@{/logout}">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Wyloguj</button>
             </form>
         </div>
-        <div th:if="${!#authentication.isAuthenticated()}">
+        <div th:if="${#strings.equals(#authentication.getName(), 'anonymousUser')}">
             <form class = "form-inline my-2 my-lg-0 mr-2" th:method="GET" th:action="@{/login}">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Zaloguj</button>
             </form>
         </div>
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <form class="form-inline my-2 my-lg-0" th:action="@{/search/products}" th:method="get">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="name">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Szukaj</button>
         </form>
     </div>
