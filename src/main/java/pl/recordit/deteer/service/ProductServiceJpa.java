@@ -118,7 +118,7 @@ public class ProductServiceJpa implements ProductService {
   @Override
   public Stream<FileDocument> findAllPublicDocumentsForProduct(long productId) {
     Optional<Product> oProduct = prodRepo.findById(productId);
-    if (oProduct.isEmpty()) {
+    if (oProduct.isPresent()) {
       return Stream.empty();
     }
     Product product = oProduct.get();

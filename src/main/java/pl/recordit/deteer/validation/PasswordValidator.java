@@ -9,7 +9,7 @@ import java.util.function.Predicate;
 public enum PasswordValidator {
     DEFAULT(Arrays.asList(
             new Rule(Objects::nonNull, "Hasło nie może być null!"),
-            new Rule(password -> !password.isBlank(), "Hasło nie może być puste"),
+            new Rule(password -> !password.isEmpty(), "Hasło nie może być puste"),
             new Rule(password -> password.length() >= 8, "Hasło musi się składać z co najmniej ośmiu znaków!"),
             new Rule(password -> password.chars().anyMatch(Character::isDigit), "Hasło musi zawierać cyfrę!"),
             new Rule(password -> password.chars().anyMatch(Character::isLowerCase), "Hasło musi zawierać małą literę!"),
