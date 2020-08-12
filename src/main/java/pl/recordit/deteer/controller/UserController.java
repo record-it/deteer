@@ -1,6 +1,7 @@
 package pl.recordit.deteer.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +18,9 @@ import java.util.Optional;
 @Controller
 public class UserController {
   private final UserService userService;
+
+  @Value("#{servletContext.contextPath}")
+  private String servletContextPath;
 
   @Autowired
   public UserController(UserService userService) {
@@ -39,7 +43,7 @@ public class UserController {
       model.addAttribute("error", validationError.get());
       return "users/errorInvalidPassword";
     }
-    Feedback feedback = userService.register(unregisteredUserDto, (id, token) -> String.format("%s/verify/%d/%s", request.getContextPath(), id, token));
+    Feedback feedback = userService.register(unregisteredUserDto, (id, token) -> String.format("%s/verify/%d/%s", servletContextPath, id, token));
     model.addAttribute("email", unregisteredUserDto.getEmail());
     if (feedback.isError()) {
       feedback.toError().ifPresent(error -> model.addAttribute("error", error.getErrorMessage()));

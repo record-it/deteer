@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class JsonMapTest {
     @Test
-    void valueShouldReturnValidValueTypeForKey(){
+    void shouldReturnValidValueTypeForKey(){
         //GIVEN
         Map<String, Object> json = new HashMap<>();
         json.put("length", 10);
@@ -26,7 +26,7 @@ class JsonMapTest {
     }
 
     @Test
-    void valueTypeShouldReturnValidTypeForKey(){
+    void shouldReturnValidTypeForKey(){
         //GIVEN
         Map<String, Object> json = new HashMap<>();
         json.put("length", 10);
@@ -42,7 +42,7 @@ class JsonMapTest {
         assertFalse(desc.valueType("null").isPresent());
     }
     @Test
-    void fromJsonShouldReturnValidMap(){
+    void shouldReturnValidMapForValidJSON(){
         //WHEN
         String json = "{\"length\":10, \"name\": \"name\", \"isRed\": true}";
         //GIVEN
@@ -58,7 +58,7 @@ class JsonMapTest {
     }
 
     @Test
-    void isKeyShouldReturnValidValues(){
+    void shouldReturnTrueForExistingKeyInMap(){
         //WHEN
         String json = "{\"length\":10, \"name\": \"name\", \"isRed\": true}";
         //GIVEN
@@ -71,15 +71,17 @@ class JsonMapTest {
     }
 
     @Test
-    void shouldReturnEmptyForNullOrEmptyString(){
+    void shouldReturnEmptyForNullOrEmptyJSONString(){
         //WHEN
         String json;
         //GIVEN
         JsonMap desc1 = JsonMap.fromJson(null);
         JsonMap desc2 = JsonMap.fromJson("");
+        JsonMap desc3 = JsonMap.fromJson("{\"asd\":'12'");
         //THAT
         assertTrue(desc1.isEmpty());
         assertTrue(desc2.isEmpty());
+        assertTrue(desc3.isEmpty());
     }
 
     @Test
@@ -94,12 +96,12 @@ class JsonMapTest {
         JsonMap root = JsonMap.fromJson(rootJson);
         parent = parent.mergeWithInheritance(root);
         current = current.mergeWithInheritance(parent);
-        //THAT
+        //THAT 1
         assertTrue(current.value("length", Integer.class).isPresent());
         assertTrue(current.value("height", Integer.class).isPresent());
         assertTrue(current.value("name", String.class).isPresent());
         assertTrue(current.value("isRed", Boolean.class).isPresent());
-
+        //THAT 2
         assertEquals(true, current.value("isRed", Boolean.class).orElse(false));
         assertEquals(100, current.value("height", Integer.class).orElse(0));
         assertEquals(10, current.value("length", Integer.class).orElse(0));

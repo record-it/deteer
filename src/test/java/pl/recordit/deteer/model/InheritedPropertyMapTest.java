@@ -7,13 +7,13 @@ import static org.junit.jupiter.api.Assertions.*;
 class InheritedPropertyMapTest {
 
   @Test
-  public void testPropertyInheritance(){
+  public void shouldReturnInheritedPropertiesForChild(){
     //WHEN
     String jsonParent = "{\"length\":10, \"name\": \"name\", \"isRed\": true}";
     Long parentId = 1L;
     //GIVEN
     InheritedPropertyMap parent = InheritedPropertyMap.fromJson(jsonParent, parentId, "parent");
-    //THAT
+    //THAT FOR PARENT
     assertEquals(10, parent.getProperties().get("length").getValue());
     assertFalse(parent.getProperties().get("name").isInherited(1L));
     assertTrue(parent.getProperties().get("length").isNative(1L));
@@ -24,11 +24,10 @@ class InheritedPropertyMapTest {
     //GIVEN
     InheritedPropertyMap child = InheritedPropertyMap.fromJson(jsonChild, childId, "child");
     child = child.mergeWithInheritance(parent);
-    //THAT
-    assertEquals(110, child.getProperties().get("length").getValue());
+    //THAT FOR CHILD
+    assertEquals(110, child.getProperties().get("length").getValue()); //inherited from parent and overridden by child
     assertEquals(childId, child.getProperties().get("length").getInheritanceSourceId());
-    assertEquals("name", child.getProperties().get("name").getValue());
+    assertEquals("name", child.getProperties().get("name").getValue()); //inherited from parent
     assertEquals(parentId, child.getProperties().get("name").getInheritanceSourceId());
   }
-
 }

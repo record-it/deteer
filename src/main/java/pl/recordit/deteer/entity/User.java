@@ -35,7 +35,6 @@ public class User implements UserDetails {
     @CreationTimestamp
     private LocalDateTime registered;
 
-    @Size(min = 8, max = 20, message = "Hasło musi zawierać co najmniej 8 znaków!")
     private String password;
 
     private boolean enabled;
