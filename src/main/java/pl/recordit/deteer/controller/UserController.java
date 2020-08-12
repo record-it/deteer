@@ -43,7 +43,8 @@ public class UserController {
       model.addAttribute("error", validationError.get());
       return "users/errorInvalidPassword";
     }
-    Feedback feedback = userService.register(unregisteredUserDto, (id, token) -> String.format("%s/verify/%d/%s", servletContextPath, id, token));
+    String url = request.getLocalName()+request.getContextPath();
+    Feedback feedback = userService.register(unregisteredUserDto, (id, token) -> String.format("%s/verify/%d/%s", request.getLocalName()+request.getContextPath(), id, token));
     model.addAttribute("email", unregisteredUserDto.getEmail());
     if (feedback.isError()) {
       feedback.toError().ifPresent(error -> model.addAttribute("error", error.getErrorMessage()));
