@@ -21,4 +21,5 @@ public class NewProductDto {
     private FileDocumentDto operatingManual;
     private FileDocumentDto energyLabel;
     private FileDocumentDto productSheet;
+    private boolean isPublic;
 }

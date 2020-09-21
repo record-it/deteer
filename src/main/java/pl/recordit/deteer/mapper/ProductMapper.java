@@ -27,11 +27,12 @@ public class ProductMapper {
                 .operatingManualId(Optional.ofNullable(entity.getOperatingManual()).flatMap(p -> Optional.of(p.getId())).orElse(null))
                 .productSheetId(Optional.ofNullable(entity.getOperatingManual()).flatMap(p -> Optional.of(p.getId())).orElse(null))
                 .properties(entity.getPropertiesAsJson())
+                .isPublic(entity.isPublic())
                 .build();
     }
 
     public Optional<Product> fromDto(ProductDto dto) {
-        Optional<Product> product = dto != null && dto.getProperties() != null
+        return dto != null && dto.getProperties() != null
                 ? Optional.of(Product.builder()
                 .properties(ProductProperties.builder().json(dto.getProperties()).build())
                 .name(dto.getName())
@@ -40,8 +41,8 @@ public class ProductMapper {
                 .operatingManual(manualMap != null && dto.getOperatingManualId() != null ? manualMap.apply(dto.getOperatingManualId()) : null)
                 .productSheet(sheetMap != null && dto.getProductSheetId() != null ? sheetMap.apply(dto.getProductSheetId()) : null)
                 .publisher(userSupplier != null ? userSupplier.get() : null)
+                .isPublic(dto.isPublic())
                 .build())
                 : Optional.empty();
-        return product;
     }
 }

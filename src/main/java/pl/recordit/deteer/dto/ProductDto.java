@@ -16,4 +16,5 @@ public class ProductDto {
     private Long operatingManualId;
     private Long energyLabelId;
     private Long productSheetId;
+    private boolean isPublic;
 }

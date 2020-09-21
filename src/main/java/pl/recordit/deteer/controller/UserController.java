@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.recordit.deteer.controll.Feedback;
 import pl.recordit.deteer.dto.UnregisteredUserDto;
 import pl.recordit.deteer.service.UserService;
@@ -18,9 +19,6 @@ import java.util.Optional;
 @Controller
 public class UserController {
   private final UserService userService;
-
-  @Value("#{servletContext.contextPath}")
-  private String servletContextPath;
 
   @Autowired
   public UserController(UserService userService) {
@@ -43,8 +41,12 @@ public class UserController {
       model.addAttribute("error", validationError.get());
       return "users/errorInvalidPassword";
     }
-    String url = request.getLocalName()+request.getContextPath();
-    Feedback feedback = userService.register(unregisteredUserDto, (id, token) -> String.format("%s/verify/%d/%s", request.getLocalName()+request.getContextPath(), id, token));
+    String verifyUrl = ServletUriComponentsBuilder.fromRequestUri(request)
+            .replacePath(null)
+            .build()
+            .toUriString();
+
+    Feedback feedback = userService.register(unregisteredUserDto, (id, token) -> String.format("%s/verify/%d/%s", verifyUrl, id, token));
     model.addAttribute("email", unregisteredUserDto.getEmail());
     if (feedback.isError()) {
       feedback.toError().ifPresent(error -> model.addAttribute("error", error.getErrorMessage()));

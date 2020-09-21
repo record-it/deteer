@@ -38,7 +38,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
+        http.requiresChannel()
+                .requestMatchers(r -> r.getHeader("X-Forwarded-Proto") != null)
+                .requiresSecure()
+                .and()
+                .authorizeRequests()
                 .mvcMatchers("/files/**","/products/update/**")
                 .hasRole("USER")
                 .anyRequest().permitAll()
@@ -48,6 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .defaultSuccessUrl("/")
                 .and()
                 .logout()
+                .clearAuthentication(true)
                 .logoutSuccessUrl("/");
     }
 }

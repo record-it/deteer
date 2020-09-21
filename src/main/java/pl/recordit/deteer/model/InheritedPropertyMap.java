@@ -37,7 +37,7 @@ public class InheritedPropertyMap {
                       .inheritanceSourceId(id)
                       .inheritanceSourceName(name)
                       .build()))
-              .collect(Collectors.toMap(entry -> entry.getKey(), entry -> entry.getValue()));
+              .collect(Collectors.toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
       return new InheritedPropertyMap(result);
     } catch (JsonProcessingException e) {
       return EMPTY;

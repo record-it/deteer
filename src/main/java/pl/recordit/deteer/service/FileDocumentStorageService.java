@@ -48,7 +48,7 @@ public class FileDocumentStorageService implements FileDocumentService {
 
     @Override
     public FileDocument findBy(long id) {
-        return null;
+        return fileRepo.findById(id).orElse(null);
     }
 
     @Override

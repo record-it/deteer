@@ -15,10 +15,15 @@ import java.util.function.Supplier;
 
 @Builder
 public class NewProductMapper {
+
     private final Function<Long, Product> parentMap;
+
     private final Function<FileDocumentDto, FileDocument> manualMap;
+
     private final Function<FileDocumentDto, FileDocument> labelMap;
+
     private final Function<FileDocumentDto, FileDocument> sheetMap;
+
     private final Supplier<User> userSupplier;
 
     public Optional<Product> fromDto(NewProductDto dto) {

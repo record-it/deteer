@@ -10,6 +10,4 @@ public class Authorities {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
-
 }

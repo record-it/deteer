@@ -2,18 +2,16 @@ package pl.recordit.deteer.entity;
 
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-
 import javax.persistence.*;
-import java.io.File;
+import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.function.Supplier;
 
 @Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class FileDocument {
+public class FileDocument implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter

@@ -1,5 +1,6 @@
 package pl.recordit.deteer.entity;
 
+import com.fasterxml.jackson.annotation.JsonRawValue;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -8,13 +9,13 @@ import pl.recordit.deteer.model.JsonMap;
 
 import javax.persistence.Embeddable;
 import javax.persistence.Transient;
-import javax.validation.constraints.NotBlank;
 
 @Embeddable
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductProperties {
+    @JsonRawValue
     private String json;
     @Transient
     private JsonMap jsonMap = JsonMap.EMPTY;

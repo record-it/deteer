@@ -5,50 +5,86 @@
 <div class="container mt-4">
     <div class="col-6 m-auto">
         <h3>Wprowadź dane nowego produktu</h3>
-        <h4 th:if="${parent != null}" th:text="${parent.getName()}"></h4>
-        <form th:method="post" enctype="multipart/form-data" th:action="@{/products/add}" id="productForm" th:object="${product}">
+        <h4 th:if="${parent != null}"
+            th:text="${parent.getName()}"></h4>
+        <form enctype="multipart/form-data"
+              th:method="post"
+              th:action="@{/products/add}" id="productForm"
+              th:object="${product}">
             <div th:if="${parent != null}">
-                <input type="idden" th:field="*{parentId}" th:value="${parent.getId()}" name="parentId">
+                <input type="hidden"
+                       th:field="*{parentId}"
+                       th:value="${parent.getId()}"
+                       name="parentId">
             </div>
-                <div class="form-group">
+            <div class="form-group">
                 <label for="product-name">Nazwa:</label>
-                <input th:field="*{name}" class="form-control" type="text" name="name" id="product-name"/>
-                <p class ="text-warning" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error></p>
+                <input class="form-control" type="text" name="name" id="product-name"
+                       th:field="*{name}" />
+                <p class="text-warning"
+                   th:if="${#fields.hasErrors('name')}"
+                   th:errors="*{name}">
+                    Name Error>
+                </p>
             </div>
             <div class="form-group">
                 <label for="properties">Właściwości:</label>
-                <textarea th:field="*{properties}" class="form-control" name="json" id="properties"><span class ="warning" th:if="${#fields.hasErrors('properties')}" th:errors="*{properties}">Name Error</span>
+                <textarea class="form-control" name="json" id="properties" rows="6"
+                          th:field="*{properties}" >
+                    <span class="warning"
+                          th:if="${#fields.hasErrors('properties')}"
+                          th:errors="*{properties}">
+                        Error
+                    </span>
                 </textarea>
-                <p class ="text-warning" th:if="${#fields.hasErrors('properties')}" th:errors="*{properties}">Name Error</p>
+                <p class="text-warning"
+                   th:if="${#fields.hasErrors('properties')}"
+                   th:errors="*{properties}">
+                    Error
+                </p>
+            </div>
+            <div class="form-group">
+                <div class="form-check form-check-inline">
+                    <label for="is-public" class="form-check-label mr-sm-2">Czy dostępny publicznie:</label>
+                    <input type="checkbox" class="form-check-input" name="isPublic" id="is-public"
+                           th:field="*{public}"/>
+                </div>
             </div>
             <div class="form-group">
                 <h4 class="form-text"> Załącz plik z instrukcją obsługi</h4>
                 <div class="form-group">
                     <label for="manual-visible-name">Etykieta pliku:</label>
-                    <input class="form-control" type="text" name="operatingManual.visibleName" id="manual-visible-name" th:field="*{operatingManual.visibleName}"/>
+                    <input class="form-control" type="text" name="operatingManual.visibleName" id="manual-visible-name"
+                           th:field="*{operatingManual.visibleName}"/>
                 </div>
                 <div class="form-group">
-                    <input class="form-control-file btn-primary" type="file" name="operatingManual.file" id="manual-file" th:field="*{operatingManual.file}"/>
+                    <input class="form-control-file btn-primary" type="file" name="operatingManual.file"
+                           id="manual-file"
+                           th:field="*{operatingManual.file}"/>
                 </div>
             </div>
             <div class="form-group">
                 <h4 class="form-text"> Załącz plik z etykietą energetyczną</h4>
                 <div class="form-group">
                     <label for="label-visible-name">Etykieta pliku:</label>
-                    <input class="form-control" type="text" name="energyLabel.visibleName" id="label-visible-name" th:field="*{energyLabel.visibleName}"/>
+                    <input class="form-control" type="text" name="energyLabel.visibleName" id="label-visible-name"
+                           th:field="*{energyLabel.visibleName}"/>
                 </div>
                 <div class="form-group">
-                    <input class="form-control-file btn-primary" type="file" name="energyLabel.file" id="label-file" th:field="*{energyLabel.file}"/>
+                    <input class="form-control-file btn-primary" type="file" name="energyLabel.file" id="label-file"
+                           th:field="*{energyLabel.file}"/>
                 </div>
             </div>
             <div class="form-group">
                 <h4 class="form-text"> Załącz plik z kartą produktu</h4>
                 <div class="form-group">
                     <label for="sheet-visible-name">Etykieta pliku:</label>
-                    <input class="form-control" type="text" name="productSheet.visibleName" id="sheet-visible-name" th:field="*{productSheet.visibleName}"/>
+                    <input class="form-control" type="text" name="productSheet.visibleName" id="sheet-visible-name"
+                           th:field="*{productSheet.visibleName}"/>
                 </div>
                 <div class="form-group">
-                    <input class="form-control-file btn-primary" type="file" name="productSheet.file" id="sheet-file" th:field="*{productSheet.file}"/>
+                    <input class="form-control-file btn-primary" type="file" name="productSheet.file" id="sheet-file"
+                           th:field="*{productSheet.file}"/>
                 </div>
             </div>
             <div class="form-group">

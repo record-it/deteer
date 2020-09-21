@@ -2,10 +2,11 @@
 <head th:insert="main::head"></head>
 <body>
 <nav th:insert="main::nav"></nav>
+<!--/*@thymesVar id="product" type="pl.recordit.deteer.entity.Product"*/-->
 <div class="container sm">
     <div class="container col-8">
-        <!--/*@thymesVar id="product" type="pl.recordit.deteer.entity.Product"*/-->
-        <h1>Opis produktu: <span th:text="${product.getName()}"></h1>
+        <h1>Opis produktu:
+        <span th:text="${product.getName()}"></h1>
         <h3 class="lead" th:if="${product.hasParent()}">Wersja:
             <a th:text="${product.parent.getName()}"
                th:href="@{/products/{id}(id = ${product.getParent().getId()})}"></a>
@@ -30,7 +31,7 @@
             <li class="list-group-item"
                 th:if="${product.getInheritedOperatingManual().isPresent()}">
                 <p>Instrukcja obsługi: <a
-                        th:href="@{/files/download/{filename}(filename = ${product.getInheritedOperatingManual().get().getOriginalFilename()})}"
+                        th:href="@{/download/{filename}(filename = ${product.getInheritedOperatingManual().get().getOriginalFilename()})}"
                         th:text="${product.getInheritedOperatingManual().get().getVisibleName()}">
                 </a>
                 </p>
@@ -38,7 +39,7 @@
             <li class="list-group-item"
                 th:if="${product.hasProductSheet()}">
                 <p>Karta produktu: <a
-                        th:href="@{/files/download/{filename}(filename = ${product.getProductSheet().getOriginalFilename()})}"
+                        th:href="@{/download/{filename}(filename = ${product.getProductSheet().getOriginalFilename()})}"
                         th:text="${product.getProductSheet().getVisibleName()}">
                 </a>
                 </p>
@@ -46,7 +47,7 @@
             <li class="list-group-item"
                 th:if="${product.hasEnergyLabel()}">
                 <p>Etykieta energetyczna: <a
-                        th:href="@{/files/download/{filename}(filename = ${product.getEnergyLabel().getOriginalFilename()})}"
+                        th:href="@{/download/{filename}(filename = ${product.getEnergyLabel().getOriginalFilename()})}"
                         th:text="${product.getEnergyLabel().getVisibleName()}">
                 </a>
                 </p>
@@ -55,6 +56,7 @@
             <h3 th:if="${!documents.isEmpty()}">Pozostałe dokumenty związane z produktem</h3>
             <li class="list-group-item"
                 th:each="document: ${documents}">
+                <!--/*@thymesVar id="getLink" type="pl.recordit.deteer.entity.FileDocument"*/-->
                 <a th:href="${document.getLink()}" th:text="${document.getVisibleLink()}"></a>
             </li>
         </ul>

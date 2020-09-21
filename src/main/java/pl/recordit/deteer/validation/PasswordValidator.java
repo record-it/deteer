@@ -28,15 +28,10 @@ public enum PasswordValidator {
         NO_SPECIAL_CHAR("Hasło musi zawierać znak nie będący literą ani cyfrą!"),
         WHITESPACE("Hasło nie może zawierać spacji!");
 
-        public final String  message;
+        private final String  message;
 
         Errors(String message){
             this.message = message;
-        }
-
-        @Override
-        public String toString() {
-            return message;
         }
 
         public String getMessage(){

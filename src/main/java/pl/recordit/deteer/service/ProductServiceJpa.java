@@ -9,6 +9,7 @@ import pl.recordit.deteer.entity.Product;
 import pl.recordit.deteer.mapper.NewProductMapper;
 import pl.recordit.deteer.mapper.ProductMapper;
 import pl.recordit.deteer.repository.ProductRepository;
+import pl.recordit.deteer.rest.service.ProductRestUpdateService;
 
 import javax.transaction.Transactional;
 import java.util.Collections;
@@ -25,10 +26,11 @@ public class ProductServiceJpa implements ProductService {
   private final FileDocumentService fileDocumentService;
   private final ProductMapper dtoProductMapper;
   private final NewProductMapper newProductMapper;
+  private final ProductRestUpdateService restUpdateService;
 
   @Autowired
   public ProductServiceJpa(ProductRepository entityRepository,
-                           FileDocumentService fileDocumentService) {
+                           FileDocumentService fileDocumentService, ProductRestUpdateService restUpdateService) {
     this.prodRepo = entityRepository;
     this.fileDocumentService = fileDocumentService;
 
@@ -46,6 +48,7 @@ public class ProductServiceJpa implements ProductService {
             .parentMap(id -> prodRepo.findById(id).orElse(null))
             .build();
     //TODO implement user supplier
+    this.restUpdateService = restUpdateService;
   }
 
   @Override
@@ -56,6 +59,11 @@ public class ProductServiceJpa implements ProductService {
   @Override
   public List<Product> findAll() {
     return Collections.unmodifiableList(prodRepo.findAll());
+  }
+
+  @Override
+  public List<Product> findAllPublic() {
+    return prodRepo.findByIsPublic(true);
   }
 
   @Override
@@ -78,6 +86,7 @@ public class ProductServiceJpa implements ProductService {
             .flatMap(entity -> {
               entity.setPropertiesAsJson(dto.getProperties());
               entity.setName(dto.getName());
+              restUpdateService.invalidate(entity.getId());
               return Optional.of(entity);
             });
   }
@@ -118,7 +127,7 @@ public class ProductServiceJpa implements ProductService {
   @Override
   public Stream<FileDocument> findAllPublicDocumentsForProduct(long productId) {
     Optional<Product> oProduct = prodRepo.findById(productId);
-    if (oProduct.isPresent()) {
+    if (!oProduct.isPresent()) {
       return Stream.empty();
     }
     Product product = oProduct.get();
@@ -127,5 +136,11 @@ public class ProductServiceJpa implements ProductService {
             .filter(doc -> product.hasEnergyLabel() && doc.getId() != product.getEnergyLabel().getId())
             .filter(doc -> product.hasProductSheet() && doc.getId() != product.getProductSheet().getId());
   }
-
+  /*
+    Temporary implementation, in future will be changed to recursive SQL statement
+   */
+  @Override
+  public Stream<Product> findChildren(long id) {
+    return Stream.empty();
+  }
 }

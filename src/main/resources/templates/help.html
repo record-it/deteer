@@ -1,0 +1,88 @@
+<html xmlns:th="https://www.thymeleaf.org">
+<head th:insert="main::head">
+<body>
+<nav th:insert="main::nav"></nav>
+<div class="container">
+    <h1 class="lead">Opis aplikacji</h1>
+    <p>Celem aplikacji jest gromadzenie w jednym spójnym systemie danych o produktach, w tym dokumentów, które powinny być dostępne publicznie jak i tych dostepnych dla wybranych użytkowników, które są związane z cyklem życia produktu (certyfikaty, sprawozdania z badań, firmowe dokumenty wewnętrzne itd.). Aplikacja w tej wersji
+    przeznaczona jest do użytku wewnętrznego (loklana sieć firmowa), być może w przyszłości posiadać będzie także usługę REST do publicznego udostępniania ogólnie
+    dostępnych informacji o produkcie do celów hadlowo-marketingowych (np. do pobierania danych o produktach przez przedstawicieli handlowych czy współpracujących z producentam sklepów).</p>
+    <p>W obecnej wersji aplikacja jest na bardzo wczesnym etapie rozwoju, i jej funkcjonalność jest dość ograniczona. W przyszłości planowane są następujące funckje:
+    </p>
+    <ul>
+        <li>generowanie na podstawie opisu produktu dokumentów np. etykiet energetycznych, kart produktu, tabliczek znamionocyh itd.</li>
+        <li>system powiadamiania użytkowników o zmianiach w opisie produktu, wprowadzenia nowych dokumentach, nowych wersji językowych dokumentów itd.</li>
+        <li>publiczne API udostępniajace dane o produkcie wraz z plikami dokumnetów</li>
+        <li>wsparcie dla wersji jezykowych w opisach produktów, dokumentach</li>
+        <li>definiowanie trybutów obowiązkowych dla każdej kategorii produktów</li>
+    </ul>
+    <h2>Produkty</h2>
+    <p>Aplikacja sluży do wprowadzania opisu produktów, do których wymagane jest dołączeni takich dokumentów jak instrukcja obsługi, karty produktu i etykiety energetyczne.
+        Oprócz tych dokumentów można także dodać opis produktu w postaci pary: atrybut i jego wartość. Opis produktu należy wpisac w postaci notacji JSON.
+        Produktu oznaczane jako dostępne publiczne są widoczne bez konieczności logowania do aplikacji.
+    </p>
+    <h3>Atrybuty produktu</h3>
+    <p>Atrybuty należy wpisywać w notacji JSON. Przykładowo dla kotła grzewczego o parametrach takich jak: moc nominalna, moc pośrednia i rodzaj paliwa, należy wpisać
+    <code>
+        <pre>
+            {
+                "moc nominalna": "10 kW",
+                "moc pośrednia": "8,2 kW",
+                "rodzaj paliwa": "pellet 6-8 mm"
+            }
+        </pre>
+    </code>
+    <p>
+    Applikacja nie akecptuje zagnieżdżania obiektów ani umieszczania atrybutów w postaci tablic. Każdy atrybut musi być
+    parametrem prostym: liczbą, łańcuchem lub wartością logiczną: true lub false.
+    </p>
+    <h3>Wersje produktów</h3>
+    <p>Jeśli produkt posiada wiele wersji, które mają dużo parametrów wspólnych, to wersję można utworzyć jako tzw. dziecko produktu
+    podstawowego. W utworzonym dziecku można dodać tylko nowe atrybuty, lub jeśli jakiś atrybut ma nową wartość, to nadpisać
+     ponownie definiując atrybut z nową wartością</p>
+    <p>
+        Posłużmy się przykładem opisu  telewizora o fikcyjnym oznaczeniu XX1:
+    </p>
+    <code>
+        <pre>
+            {
+                "przekątna": "42 cale",
+                "kolor": "czarny",
+                "smart TV": true
+            }
+        </pre>
+    </code>
+    <p>
+        Opis modelu XX1A, który jest dodatkowo wyposażony w moduł Android TV i ma kolor srebrny, a pozostałe parametry są
+        takie same jak w modelu XX1, można utworzyć jako wersję XX1, dodając taki opis w JSON:
+        <code>
+            <pre>
+             {
+                "kolor": "srerbny",
+                "Android TV": true
+            }
+            </pre>
+        </code>
+    </p>
+    <p>
+        Aplikacja wyświetli wszyskie parametry podczas przeglądania opisu produktu, zaznaczając linkiem te właściwości,
+        które zostały odziedziczone po wersji podstawowej.
+    </p>
+    <p class="text-warning">Teoretycznie można tworzyć wiele poziomów, czyli produkt podstawowy, wersja, podwersja, wersja podwersji itd.
+    Tworzenie więcej niż trzech poziomów prowadzi do bardzo skomplikowanej struktury, w której można łatwo się pogubić. Dodatkowo, zmiana
+    parametru w produkcie podstawowym będzie wpływać na automatyczną zmianę w wersjach i kolejncyh podwersjach, co jest
+    zaletą, ale tylko przy świadomym wykorzystywaniu mechanizmu dziedziczenia. </p>
+    <h2>Pliki</h2>
+    <p>Podczas dodawania opisu produktu, można dołączyć pliki instrukcji obsługi, etykiety energetycznej i karty produktu, które są wymagane przepisami.
+    W trakcie cyklu życia produktu powstają nowe wersje insturkcji obsługi czy dodatkowe dokumenty związane z produktem, dlatego można wczytać do aplikacji
+    dowolną liczbę dokumentów. Dokumnety posiadaą atrybut dostępności publicznej, który decyduje o dostepności dla niezalogowanych
+    użytkowników.</p>
+    <p class="lead text-warning">W tej wersji aplikacji dołączanie aktualnej wersji pliku instrukcji obsługi, etykiety czy karty jest możliwe tylko
+        w formularzu edycji produktu dla użytkowników zalogowanych. Poprzednie wersję dokumentów można znaleźć przeglądając dane produktu w sekcji <strong>Pozostałe dokumenty</strong>></p>
+    <h2>Uwagi</h2>
+    <p>Do każdego produkt można dodać uwagi czy komentarze, których celem jest zgłaszanie wszelkich porprawek lub propozycji zmian a opisie produktu. W obecnej chwili komentarze mogą zgłaszać użytkownicy, zalogowani
+    jak i anonimowi.</p>
+</div>
+<div th:insert="main::scripts"></div>
+</body>
+</html>

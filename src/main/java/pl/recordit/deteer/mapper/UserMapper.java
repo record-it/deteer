@@ -1,6 +1,5 @@
 package pl.recordit.deteer.mapper;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import pl.recordit.deteer.dto.UnregisteredUserDto;
 import pl.recordit.deteer.entity.User;
@@ -13,7 +12,7 @@ public enum UserMapper {
     public User fromDto(UnregisteredUserDto unregistered){
         return User.builder()
                 .email(unregistered.getEmail())
-                .password(passwordEncoder!= null ? passwordEncoder.encode(unregistered.getPassword()) : unregistered.getPassword())
+                .password(passwordEncoder != null ? passwordEncoder.encode(unregistered.getPassword()) : unregistered.getPassword())
                 .enabled(unregistered.isEnabled())
                 .verified(unregistered.isVerified())
                 .build();

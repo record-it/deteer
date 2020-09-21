@@ -2,16 +2,12 @@ package pl.recordit.deteer.entity;
 
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import pl.recordit.deteer.model.UserRole;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
-import java.sql.Timestamp;
-import java.time.LocalDate;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
@@ -22,7 +18,7 @@ import java.util.Collections;
 @AllArgsConstructor
 @Builder
 @Table(name = "users")
-public class User implements UserDetails {
+public class User implements UserDetails, Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

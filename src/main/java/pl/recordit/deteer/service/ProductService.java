@@ -18,6 +18,8 @@ public interface ProductService {
 
     List<Product> findAll();
 
+    List<Product> findAllPublic();
+
     Optional<Product> create(NewProductDto dto);
 
     Optional<Product> update(ProductDto dto, long id);
@@ -31,4 +33,6 @@ public interface ProductService {
     Stream<FileDocument> findDocuments(Function<Product, FileDocument> selector);
 
     Stream<FileDocument> findAllPublicDocumentsForProduct(long id);
+
+    Stream<Product> findChildren(long id);
 }
