@@ -6,5 +6,5 @@ import pl.recordit.deteer.entity.Product;
 import java.util.List;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
-    List<Product> findByPublicIs(boolean isPublic);
+    List<Product> findByIsPublic(boolean isPublic);
 }
