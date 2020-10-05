@@ -9,8 +9,8 @@ spring:
       ddl-auto: update
       naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
   mail:
-    host: mail.record-it.pl
+    host: ${MAIL_HOST}
     port: 587
-    username: blooog@record-it.pl
+    username: ${MAIL_USERNAME}
     password: ${MAIL_PASSWORD}
     protocol: smtp

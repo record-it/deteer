@@ -24,8 +24,6 @@ public class NewProductMapper {
 
     private final Function<FileDocumentDto, FileDocument> sheetMap;
 
-    private final Supplier<User> userSupplier;
-
     public Optional<Product> fromDto(NewProductDto dto) {
         return dto != null && dto.getProperties() != null
                 ? Optional.of(Product.builder()
@@ -35,7 +33,7 @@ public class NewProductMapper {
                 .energyLabel(labelMap != null && dto.getEnergyLabel() != null ? labelMap.apply(dto.getEnergyLabel()) : null)
                 .operatingManual(manualMap != null && dto.getOperatingManual() != null ? manualMap.apply(dto.getOperatingManual()) : null)
                 .productSheet(sheetMap != null && dto.getProductSheet() != null ? sheetMap.apply(dto.getProductSheet()) : null)
-                .publisher(userSupplier != null ? userSupplier.get() : null)
+                .publisher(dto.getPublisher())
                 .build())
                 : Optional.empty();
     }

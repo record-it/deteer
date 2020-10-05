@@ -136,8 +136,14 @@ public class ProductServiceJpa implements ProductService {
             .filter(doc -> product.hasEnergyLabel() && doc.getId() != product.getEnergyLabel().getId())
             .filter(doc -> product.hasProductSheet() && doc.getId() != product.getProductSheet().getId());
   }
+
+  @Override
+  public Stream<FileDocument> findAllDocumentsForProduct(long id) {
+    return fileDocumentService.findByProductId(id, p -> true);
+  }
+
   /*
-    Temporary implementation, in future will be changed to recursive SQL statement
+    Temporary implementation, in future will be changed for recursive SQL statement
    */
   @Override
   public Stream<Product> findChildren(long id) {

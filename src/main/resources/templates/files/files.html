@@ -5,8 +5,10 @@
 <div class="container m-auto">
     <h1>Lista plików</h1>
     <ul class="list-group">
-            <li class ="list-group-item" th:each="file : ${files}">
-                <a th:href="@{/download/{name}(name = ${file.getFileName()})}" th:text="${file}"></a>
+            <li class ="list-group-item" th:each="file : ${documents}">
+                <a th:href="@{/download/{name}(name = ${file.getOriginalFilename()})}" th:text="${file.getVisibleName()}"></a>
+                należy do: <span th:text="${file.getProduct().getName()}"></span>
+                opublikowany przez: <span th:text="${file.getPublisher().getUsername()}"></span>
             </li>
         </ul>
     </ul>

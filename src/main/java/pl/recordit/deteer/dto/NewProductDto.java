@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
+import pl.recordit.deteer.entity.User;
 
 import javax.validation.constraints.*;
 
@@ -22,4 +23,5 @@ public class NewProductDto {
     private FileDocumentDto energyLabel;
     private FileDocumentDto productSheet;
     private boolean isPublic;
+    private User publisher;
 }

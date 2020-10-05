@@ -2,9 +2,7 @@ package pl.recordit.deteer.service;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import pl.recordit.deteer.controll.Error;
 import pl.recordit.deteer.controll.Feedback;
-import pl.recordit.deteer.dto.LoginUserDto;
 import pl.recordit.deteer.dto.UnregisteredUserDto;
 import pl.recordit.deteer.mapper.UserMapper;
 import pl.recordit.deteer.entity.User;
@@ -14,7 +12,6 @@ import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.Optional;
 import java.util.function.BiFunction;
-import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 
 @Service

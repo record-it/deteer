@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
+import pl.recordit.deteer.entity.User;
 
 @Data
 @Builder
@@ -14,4 +15,5 @@ public class FileDocumentDto {
     private String visibleName;
     private MultipartFile file;
     private Long productId;
+    private User publisher;
 }

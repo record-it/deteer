@@ -10,13 +10,14 @@ import java.util.function.Function;
 @Builder
 @AllArgsConstructor
 public class FileDocumentMapper {
-    private final Function<Long, Product> ownerMap;
+    private final Function<Long, Product> productMap;
 
     public FileDocument fromDto(FileDocumentDto dto){
         return FileDocument.builder()
                 .originalFilename(dto.getFile().getOriginalFilename())
                 .visibleName(dto.getVisibleName())
-                .product(ownerMap != null && dto.getProductId() != null ? ownerMap.apply(dto.getProductId()):null)
+                .product(productMap != null && dto.getProductId() != null ? productMap.apply(dto.getProductId()):null)
+                .publisher(dto.getPublisher())
                 .build();
     }
 }

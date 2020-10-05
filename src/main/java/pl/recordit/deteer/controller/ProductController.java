@@ -2,6 +2,7 @@ package pl.recordit.deteer.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -76,9 +77,8 @@ public class ProductController {
               model.addAttribute("product", product);
               model.addAttribute("comment", CommentDto.builder().productId(product.getId()).build());
               model.addAttribute("documents",
-                      productService.findAllPublicDocumentsForProduct(product.getId())
+                      productService.findAllDocumentsForProduct(id)
                               .flatMap(doc -> Stream.of(doc.generateLink("/download")))
-                              .peek(f -> System.out.println(f.getVisibleName()))
                               .collect(Collectors.toList()));
               return Optional.of(PRODUCT);
             })
@@ -102,10 +102,11 @@ public class ProductController {
   }
 
   @PostMapping("/add")
-  public String saveProduct(@ModelAttribute("product") @Valid NewProductDto product, BindingResult bindingResult) {
+  public String saveProduct(@ModelAttribute("product") @Valid NewProductDto product, BindingResult bindingResult, @AuthenticationPrincipal User user) {
     if (bindingResult.hasErrors()) {
       return NEW_PRODUCT_FORM;
     }
+    product.setPublisher(user);
     productService.create(product);
     return "redirect:/products/index";
   }

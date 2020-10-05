@@ -34,5 +34,7 @@ public interface ProductService {
 
     Stream<FileDocument> findAllPublicDocumentsForProduct(long id);
 
+    Stream<FileDocument> findAllDocumentsForProduct(long id);
+
     Stream<Product> findChildren(long id);
 }

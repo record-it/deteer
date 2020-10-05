@@ -7,10 +7,10 @@
         <h1>Logowanie</h1>
         <form method="post" th:action="@{/login}" id="loginForm">
             <div th:if="${param.error}" class="text-danger">
-                Niepoprawny użytkownik lub hasło.
+                Niepoprawny login użytkownika lub hasło.
             </div>
             <div th:if="${param.logout}" class="alert alert-success">
-                You have been logged out.
+                Zostałeś wylogowany.
             </div>
             <div class="form-group">
                 <label for="username">Nazwa użytkownika:</label>

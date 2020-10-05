@@ -1,16 +1,15 @@
 package pl.recordit.deteer.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import pl.recordit.deteer.dto.FileDocumentDto;
-import pl.recordit.deteer.entity.Product;
 import pl.recordit.deteer.mapper.FileDocumentMapper;
 import pl.recordit.deteer.entity.FileDocument;
 import pl.recordit.deteer.repository.FileDocumentRepository;
 import pl.recordit.deteer.repository.ProductRepository;
 import pl.recordit.deteer.storage.StorageService;
 
-import java.io.File;
 import java.nio.file.Path;
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -27,13 +26,13 @@ public class FileDocumentStorageService implements FileDocumentService {
 
     private final ProductRepository productRepository;
 
-
+    @Autowired
     public FileDocumentStorageService(StorageService storageService, FileDocumentRepository repository, ProductRepository productRepository) {
         this.storageService = storageService;
         this.fileRepo = repository;
         this.productRepository = productRepository;
         newDocumentMapper = FileDocumentMapper.builder()
-                .ownerMap(id -> this.productRepository.findById(id).orElse(null))
+                .productMap(id -> this.productRepository.findById(id).orElse(null))
                 .build();
     }
 
