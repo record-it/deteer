@@ -27,6 +27,7 @@ public class NewProductMapper {
     public Optional<Product> fromDto(NewProductDto dto) {
         return dto != null && dto.getProperties() != null
                 ? Optional.of(Product.builder()
+                .isPublic(dto.isPublic())
                 .properties(ProductProperties.builder().json(dto.getProperties()).build())
                 .name(dto.getName())
                 .parent(parentMap != null && dto.getParentId() != null ? parentMap.apply(dto.getParentId()) : null)

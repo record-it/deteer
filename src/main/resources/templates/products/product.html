@@ -53,7 +53,7 @@
                 </p>
             </li>
             <!--/*@thymesVar id="document" type="pl.recordit.deteer.entity.FileDocument"*/-->
-            <h3>Pozostałe dokumenty związane z produktem:</h3>
+            <h3 th:if="${documents.size() > 0}">Pozostałe dokumenty związane z produktem:</h3>
             <!--/*@thymesVar id="documents" type="pl.recordit.deteer.entity.FileDocument"*/-->
             <li class="list-group-item"
                 th:each="document: ${documents}">
