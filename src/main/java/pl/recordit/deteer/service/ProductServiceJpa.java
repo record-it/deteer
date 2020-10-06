@@ -10,6 +10,7 @@ import pl.recordit.deteer.mapper.NewProductMapper;
 import pl.recordit.deteer.mapper.ProductMapper;
 import pl.recordit.deteer.repository.ProductRepository;
 import pl.recordit.deteer.rest.service.ProductRestUpdateService;
+import sun.java2d.pipe.SolidTextRenderer;
 
 import javax.transaction.Transactional;
 import java.util.Collections;
@@ -139,7 +140,15 @@ public class ProductServiceJpa implements ProductService {
 
   @Override
   public Stream<FileDocument> findAllDocumentsForProduct(long id) {
-    return fileDocumentService.findByProductId(id, p -> true);
+    Optional<Product> oPproduct = prodRepo.findById(id);
+    if (!oPproduct.isPresent()){
+      return Stream.empty();
+    }
+    Product product = oPproduct.get();
+    return fileDocumentService.findByProductId(id, p -> true)
+            .filter(doc -> product.hasOperatingManual() && doc.getId() != product.getOperatingManual().getId())
+            .filter(doc -> product.hasEnergyLabel() && doc.getId() != product.getEnergyLabel().getId())
+            .filter(doc -> product.hasProductSheet() && doc.getId() != product.getProductSheet().getId());
   }
 
   /*

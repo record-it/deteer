@@ -13,8 +13,6 @@ import pl.recordit.deteer.dto.ProductDto;
 import pl.recordit.deteer.entity.Product;
 import pl.recordit.deteer.entity.User;
 import pl.recordit.deteer.facade.AuthenticationFacade;
-import pl.recordit.deteer.model.InheritedPropertyMap;
-import pl.recordit.deteer.rest.service.ProductRestUpdateService;
 import pl.recordit.deteer.service.CommentService;
 import pl.recordit.deteer.service.ProductService;
 import pl.recordit.deteer.service.ProductServiceJpa;
@@ -31,17 +29,17 @@ import java.util.stream.Stream;
 @RequestMapping(path = "/products")
 public class ProductController {
 
-  public static final String PRODUCTS = "products/products";
+  public static final String PRODUCTS_VIEW = "products/products";
 
-  public static final String PRODUCT = "products/product";
+  public static final String PRODUCT_VIEW = "products/product";
 
   public static final String NEW_PRODUCT_FORM = "products/newProductForm";
 
   public static final String UPDATE_PRODUCT_FORM = "products/updateProductForm";
 
-  public static final String DOCUMENTS = "products/documents";
+  public static final String DOCUMENTS_VIEW = "products/documents";
 
-  public static final String ERROR = "error";
+  public static final String ERROR_VIEW = "error";
 
   private final ProductService productService;
 
@@ -64,7 +62,7 @@ public class ProductController {
   public String allProducts(HttpServletRequest request, Model model) {
     model.addAttribute("header","Lista wszystkich produktów:");
     model.addAttribute("products", authenticationFacade.isAnonymous() ? productService.findAllPublic() : productService.findAll());
-    return PRODUCTS;
+    return PRODUCTS_VIEW;
   }
 
   @GetMapping(path = "/{id}")
@@ -80,9 +78,9 @@ public class ProductController {
                       productService.findAllDocumentsForProduct(id)
                               .flatMap(doc -> Stream.of(doc.generateLink("/download")))
                               .collect(Collectors.toList()));
-              return Optional.of(PRODUCT);
+              return Optional.of(PRODUCT_VIEW);
             })
-            .orElse(PRODUCTS);
+            .orElse(PRODUCTS_VIEW);
   }
 
   @GetMapping(path = "/add")
@@ -98,7 +96,7 @@ public class ProductController {
       product.setParentId(parentId);
       return NEW_PRODUCT_FORM;
     }
-    return ERROR;
+    return ERROR_VIEW;
   }
 
   @PostMapping("/add")
@@ -131,21 +129,21 @@ public class ProductController {
   public String allOperatingManuals(Model model) {
     model.addAttribute("description", "Instrukcje obsługi produktów:");
     model.addAttribute("documents", productService.findDocuments(Product::getOperatingManual).collect(Collectors.toList()));
-    return DOCUMENTS;
+    return DOCUMENTS_VIEW;
   }
 
   @GetMapping("/labels")
   public String allEnergyLabels(Model model) {
     model.addAttribute("description", "Etykiety energetyczne:");
     model.addAttribute("documents", productService.findDocuments(Product::getEnergyLabel).collect(Collectors.toList()));
-    return DOCUMENTS;
+    return DOCUMENTS_VIEW;
   }
 
   @GetMapping("/sheets")
   public String allProductSheets(Model model) {
     model.addAttribute("description", "Karty produktów:");
     model.addAttribute("documents", productService.findDocuments(Product::getProductSheet).collect(Collectors.toList()));
-    return DOCUMENTS;
+    return DOCUMENTS_VIEW;
   }
 
   @PostMapping("/comments/add/{productId}")
@@ -156,6 +154,6 @@ public class ProductController {
     }
     return commentService.create(commentDto)
             .flatMap(comment -> Optional.of("redirect:/products/" + productId))
-            .orElse(ERROR);
+            .orElse(ERROR_VIEW);
   }
 }

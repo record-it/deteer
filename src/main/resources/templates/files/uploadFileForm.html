@@ -10,13 +10,16 @@
         <form method="POST"
               enctype="multipart/form-data"
               th:action="@{/files/upload}"
-              id="uploadForm" th:object="${fileDocumentDto}">
+              id="uploadForm"
+              th:object="${fileDocumentDto}">
             <div class="form-group">
                 <label class="form-check-label" for="product">
                     Wybierz produkt, do którego chcesz przypisać plik:
                 </label>
                 <select th:field="*{productId}"
-                        class="form-control" name="product" id="product">
+                        class="form-control"
+                        name="product"
+                        id="product">
                     <option th:each="product: ${products}"
                             th:value="${product.getId()}"
                             th:text="${product.getName()}">Product
@@ -24,7 +27,18 @@
                 </select>
             </div>
             <div class="form-group">
-                <label for="visibleName">Etykieta pliku:</label>
+                <select th:field="*{category}"
+                        class="form-control"
+                        name="category">
+                    <option th:each="category: ${fileCategories}"
+                            th:value="${category}"
+                            th:text="${category.getPolishName()}">Language
+                    </option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-check-label" for="visibleName">Etykieta pliku:</label>
                 <input class="form-control" type="text" name="visibleName" id="visibleName" th:field="*{visibleName}"/>
             </div>
             <div class="form-group">

@@ -9,13 +9,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import pl.recordit.deteer.dto.FileCategory;
 import pl.recordit.deteer.dto.FileDocumentDto;
 import pl.recordit.deteer.entity.User;
 import pl.recordit.deteer.service.FileDocumentService;
 import pl.recordit.deteer.service.ProductService;
 import pl.recordit.deteer.storage.StorageFileNotFoundException;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -25,6 +29,10 @@ public class FileUploadController {
 
     private final FileDocumentService fileDocumentService;
     private final ProductService productService;
+
+    List<FileCategory> allFileCategories() {
+        return Arrays.asList(FileCategory.values());
+    }
 
     @Autowired
     public FileUploadController(FileDocumentService fileDocumentService, ProductService productService) {
@@ -40,34 +48,39 @@ public class FileUploadController {
     }
 
     @GetMapping("/upload")
-    public String uploadFileForm(@ModelAttribute("fileDocumentDto") FileDocumentDto fileDocumentDto, Model model){
+    public String uploadFileForm(@ModelAttribute("fileDocumentDto") FileDocumentDto fileDocumentDto, Model model) {
+        model.addAttribute("fileCategories", allFileCategories());
         model.addAttribute("products", productService.findAll());
         return "files/uploadFileForm";
     }
 
     @PostMapping("/upload")
-    public String handleUploadFile(@ModelAttribute("dto") FileDocumentDto dto, @AuthenticationPrincipal User user){
+    public ModelAndView handleUploadFile(@ModelAttribute("dto") FileDocumentDto dto, @AuthenticationPrincipal User user) {
         dto.setPublisher(user);
-        return fileDocumentService.save(dto).flatMap(f -> Optional.of("redirect:/files/all")).orElse("error");
+        ModelAndView view = new ModelAndView( fileDocumentService.save(dto)
+                .flatMap(f -> Optional.of("redirect:/files/index"))
+                .orElse("error"));
+        view.getModelMap().clear();
+        return view;
     }
 
     @GetMapping("/upload/manual/{product_id}")
-    public String uploadManualForm(@PathVariable long product_id, Model model) {
-        return productService.findBy(product_id)
+    public String uploadManualForm(@PathVariable long productId, Model model) {
+        return productService.findBy(productId)
                 .flatMap(product -> {
-                            model.addAttribute("product", product);
-                            return Optional.of("/files/uploadManualForm");
-                        }
-                ).orElse("redirect:/products/index");
+                    model.addAttribute("product", product);
+                    return Optional.of("/files/uploadManualForm");
+                })
+                .orElse("redirect:/products/index");
     }
 
     @PostMapping("/upload/manual")
-    public String handleUploadManual(@RequestParam(name = "product_id") long product_id, FileDocumentDto dto , @AuthenticationPrincipal User user) {
+    public String handleUploadManual(@RequestParam(name = "product_id") long product_id, FileDocumentDto dto, @AuthenticationPrincipal User user) {
         dto.setPublisher(user);
         return fileDocumentService.save(dto)
                 .flatMap(om -> {
                     productService.updateOperatingManual(product_id, om);
-                    return Optional.of("redirect:/products/update/"+product_id);
+                    return Optional.of("redirect:/products/update/" + product_id);
                 })
                 .orElse("error");
     }

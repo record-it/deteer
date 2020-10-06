@@ -10,6 +10,7 @@ import pl.recordit.deteer.repository.FileDocumentRepository;
 import pl.recordit.deteer.repository.ProductRepository;
 import pl.recordit.deteer.storage.StorageService;
 
+import javax.transaction.Transactional;
 import java.nio.file.Path;
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -37,12 +38,16 @@ public class FileDocumentStorageService implements FileDocumentService {
     }
 
     @Override
-    public Optional<FileDocument> save(FileDocumentDto fileDocument) {
-        if (fileDocument == null || fileDocument.getFile() == null || fileDocument.getFile().isEmpty()){
+    @Transactional
+    public Optional<FileDocument> save(FileDocumentDto dto) {
+        if (dto == null || dto.getFile() == null || dto.getFile().isEmpty()){
             return Optional.empty();
         }
-        storageService.store(fileDocument.getFile());
-        return Optional.of(fileRepo.save(newDocumentMapper.fromDto(fileDocument)));
+        storageService.store(dto.getFile());
+        FileDocument document = fileRepo.save(newDocumentMapper.fromDto(dto));
+        productRepository.findById(dto.getProductId())
+                .ifPresent(product -> dto.getCategory().bind(product, document));
+        return Optional.of(document);
     }
 
     @Override

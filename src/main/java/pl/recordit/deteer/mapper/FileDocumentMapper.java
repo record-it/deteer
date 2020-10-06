@@ -1,6 +1,7 @@
 package pl.recordit.deteer.mapper;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import pl.recordit.deteer.dto.FileCategory;
 import pl.recordit.deteer.dto.FileDocumentDto;
 import pl.recordit.deteer.entity.FileDocument;
 import pl.recordit.deteer.entity.Product;

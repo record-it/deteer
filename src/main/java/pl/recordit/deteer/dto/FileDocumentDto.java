@@ -14,6 +14,7 @@ import pl.recordit.deteer.entity.User;
 public class FileDocumentDto {
     private String visibleName;
     private MultipartFile file;
+    private FileCategory category;
     private Long productId;
     private User publisher;
 }
