@@ -146,9 +146,9 @@ public class ProductServiceJpa implements ProductService {
     }
     Product product = oPproduct.get();
     return fileDocumentService.findByProductId(id, p -> true)
-            .filter(doc -> product.hasOperatingManual() && doc.getId() != product.getOperatingManual().getId())
-            .filter(doc -> product.hasEnergyLabel() && doc.getId() != product.getEnergyLabel().getId())
-            .filter(doc -> product.hasProductSheet() && doc.getId() != product.getProductSheet().getId());
+            .filter(doc -> !doc.equals(product.getOperatingManual()))
+            .filter(doc -> !doc.equals(product.getEnergyLabel()))
+            .filter(doc -> !doc.equals(product.getProductSheet()));
   }
 
   /*
